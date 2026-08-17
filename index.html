@@ -6,18 +6,9 @@
 <title>SenFood Skopje - Cash Flow 2026</title>
 <style>
   :root {
-    --bg: #f5f6fa;
-    --card: #ffffff;
-    --primary: #1a3a5c;
-    --primary-light: #2d5f8a;
-    --accent: #e8913a;
-    --accent-hover: #d07e2f;
-    --text: #2c3e50;
-    --text-light: #7f8c8d;
-    --border: #dce1e8;
-    --green: #27ae60;
-    --red: #e74c3c;
-    --row-alt: #f8f9fc;
+    --bg: #f5f6fa; --card: #ffffff; --primary: #1a3a5c; --primary-light: #2d5f8a;
+    --accent: #e8913a; --accent-hover: #d07e2f; --text: #2c3e50; --text-light: #7f8c8d;
+    --border: #dce1e8; --green: #27ae60; --red: #e74c3c; --row-alt: #f8f9fc;
     --shadow: 0 2px 12px rgba(0,0,0,0.08);
   }
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -25,7 +16,7 @@
 
   /* LOGIN */
   #loginScreen { display:flex; align-items:center; justify-content:center; min-height:100vh; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); }
-  .login-box { background: var(--card); border-radius: 12px; padding: 48px 40px; width: 380px; box-shadow: 0 8px 40px rgba(0,0,0,0.2); text-align:center; }
+  .login-box { background: var(--card); border-radius: 12px; padding: 48px 40px; width: 400px; box-shadow: 0 8px 40px rgba(0,0,0,0.2); text-align:center; }
   .login-box h1 { color: var(--primary); font-size: 22px; margin-bottom: 6px; }
   .login-box .subtitle { color: var(--text-light); font-size: 13px; margin-bottom: 28px; }
   .login-box input { width:100%; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px; margin-bottom: 14px; outline:none; transition: border 0.2s; }
@@ -33,79 +24,111 @@
   .login-box button { width:100%; padding: 13px; background: var(--accent); color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
   .login-box button:hover { background: var(--accent-hover); }
   .login-error { color: var(--red); font-size: 13px; margin-top: 10px; display:none; }
+  .login-box .token-note { font-size: 11px; color: var(--text-light); margin-top: 8px; text-align:left; }
 
   /* HEADER */
   #app { display:none; }
-  header { background: var(--primary); color: #fff; padding: 16px 28px; display: flex; align-items:center; justify-content:space-between; }
-  header h1 { font-size: 18px; font-weight: 600; letter-spacing: 0.5px; }
-  header .user-info { display:flex; align-items:center; gap: 16px; font-size: 13px; }
-  header .user-info .badge { background: var(--accent); padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
-  header .logout-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); color: #fff; padding: 6px 14px; border-radius: 6px; cursor:pointer; font-size: 12px; }
-  header .logout-btn:hover { background: rgba(255,255,255,0.25); }
+  header { background: var(--primary); color: #fff; padding: 14px 24px; display: flex; align-items:center; justify-content:space-between; flex-wrap: wrap; gap: 10px; }
+  header h1 { font-size: 17px; font-weight: 600; }
+  .header-right { display:flex; align-items:center; gap: 12px; font-size: 13px; }
+  .badge { background: var(--accent); padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+  .hdr-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); color: #fff; padding: 6px 14px; border-radius: 6px; cursor:pointer; font-size: 12px; }
+  .hdr-btn:hover { background: rgba(255,255,255,0.25); }
 
   /* TABS */
-  .tabs { display: flex; background: #fff; border-bottom: 2px solid var(--border); padding: 0 20px; overflow-x:auto; }
-  .tab { padding: 14px 20px; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text-light); border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s; }
+  .tabs { display: flex; background: #fff; border-bottom: 2px solid var(--border); padding: 0 16px; overflow-x:auto; }
+  .tab { padding: 14px 18px; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text-light); border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s; user-select:none; }
   .tab:hover { color: var(--text); }
   .tab.active { color: var(--primary); border-bottom-color: var(--accent); font-weight: 600; }
 
+  /* TOOLBAR */
+  .toolbar { display:flex; align-items:center; justify-content:space-between; padding: 12px 20px; background: #fff; border-bottom: 1px solid var(--border); }
+  .toolbar .edit-mode-label { font-size: 13px; color: var(--text-light); }
+  .toolbar .edit-toggle { display:flex; align-items:center; gap: 8px; }
+  .switch { position:relative; width:44px; height:24px; cursor:pointer; }
+  .switch input { opacity:0; width:0; height:0; }
+  .switch .slider { position:absolute; top:0;left:0;right:0;bottom:0; background:#ccc; border-radius:24px; transition:.3s; }
+  .switch .slider:before { content:""; position:absolute; height:18px; width:18px; left:3px; bottom:3px; background:#fff; border-radius:50%; transition:.3s; }
+  .switch input:checked + .slider { background: var(--green); }
+  .switch input:checked + .slider:before { transform: translateX(20px); }
+  .save-bar { display:none; align-items:center; gap:12px; }
+  .save-bar.visible { display:flex; }
+  .save-btn { background: var(--green); color:#fff; border:none; padding: 8px 20px; border-radius: 6px; font-size: 13px; font-weight:600; cursor:pointer; }
+  .save-btn:hover { background: #219a52; }
+  .save-btn:disabled { background: #aaa; cursor:not-allowed; }
+  .cancel-btn { background: var(--red); color:#fff; border:none; padding: 8px 16px; border-radius: 6px; font-size: 13px; cursor:pointer; }
+  .save-status { font-size: 12px; color: var(--green); font-weight: 600; }
+
   /* CONTENT */
-  .content { padding: 20px; }
+  .content { padding: 16px; }
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
 
   /* SUMMARY CARDS */
-  .summary-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
-  .summary-card { background: var(--card); border-radius: 10px; padding: 20px; box-shadow: var(--shadow); }
-  .summary-card .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-light); margin-bottom: 6px; }
-  .summary-card .value { font-size: 24px; font-weight: 700; color: var(--primary); }
+  .summary-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin-bottom: 20px; }
+  .summary-card { background: var(--card); border-radius: 10px; padding: 18px; box-shadow: var(--shadow); }
+  .summary-card .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-light); margin-bottom: 5px; }
+  .summary-card .value { font-size: 22px; font-weight: 700; color: var(--primary); }
   .summary-card .value.positive { color: var(--green); }
   .summary-card .value.negative { color: var(--red); }
-  .summary-card .sub { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+  .summary-card .sub { font-size: 12px; color: var(--text-light); margin-top: 3px; }
 
   /* TABLES */
   .table-wrap { background: var(--card); border-radius: 10px; box-shadow: var(--shadow); overflow-x: auto; }
-  .table-wrap h3 { padding: 16px 20px 0; color: var(--primary); font-size: 15px; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  thead th { background: var(--primary); color: #fff; padding: 10px 14px; text-align: right; font-weight: 500; font-size: 12px; white-space: nowrap; position: sticky; top: 0; }
+  thead th { background: var(--primary); color: #fff; padding: 10px 12px; text-align: right; font-weight: 500; font-size: 12px; white-space: nowrap; position: sticky; top: 0; z-index:2; }
   thead th:first-child { text-align: left; }
-  tbody td { padding: 9px 14px; text-align: right; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  tbody td { padding: 8px 12px; text-align: right; border-bottom: 1px solid var(--border); white-space: nowrap; }
   tbody td:first-child { text-align: left; font-weight: 500; }
   tbody tr:nth-child(even) { background: var(--row-alt); }
   tbody tr:hover { background: #eef3f9; }
+  tbody tr.subtotal-row { background: #e8edf4 !important; font-weight: 600; }
+  tbody tr.remaining-row td { font-weight: 700; font-size: 14px; }
   tbody tr.total-row { background: var(--primary) !important; color: #fff; font-weight: 600; }
   tbody tr.total-row td { border-bottom: none; }
-  tbody tr.subtotal-row { background: #e8edf4; font-weight: 600; }
-  tbody tr.remaining-row td { font-weight: 700; font-size: 14px; }
   .num-positive { color: var(--green); }
   .num-negative { color: var(--red); font-weight: 600; }
 
-  /* STATUS BADGES */
+  /* EDITABLE CELLS */
+  td.editable { cursor: pointer; position: relative; }
+  td.editable:hover { background: #fff3e0 !important; }
+  td.editable input { width: 90px; padding: 4px 6px; border: 2px solid var(--accent); border-radius: 4px; font-size: 13px; text-align: right; outline: none; background: #fffbf0; }
+  td.editing { background: #fff3e0 !important; }
+  .edit-hint { font-size: 11px; color: var(--accent); margin-left: 8px; }
+
+  /* STATUS */
   .status-paid { background: #e8f5e9; color: #2e7d32; padding: 3px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
   .status-unpaid { background: #ffebee; color: #c62828; padding: 3px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
 
-  /* FOOTER */
-  footer { text-align: center; padding: 20px; color: var(--text-light); font-size: 12px; }
+  footer { text-align: center; padding: 16px; color: var(--text-light); font-size: 12px; }
 
-  /* MOBILE */
+  /* TOAST */
+  .toast { position:fixed; bottom:30px; right:30px; padding:14px 24px; border-radius:8px; color:#fff; font-size:14px; font-weight:600; z-index:999; display:none; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+  .toast.success { background: var(--green); }
+  .toast.error { background: var(--red); }
+  .toast.show { display:block; animation: fadeIn .3s; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
   @media (max-width: 768px) {
-    .login-box { width: 90%; padding: 32px 24px; }
-    header { flex-direction: column; gap: 10px; text-align: center; }
+    .login-box { width: 92%; padding: 28px 20px; }
+    header { flex-direction: column; text-align: center; }
     .summary-row { grid-template-columns: 1fr 1fr; }
-    .tab { padding: 12px 14px; font-size: 12px; }
-    .content { padding: 12px; }
+    .tab { padding: 12px 12px; font-size: 12px; }
+    .toolbar { flex-direction: column; gap: 10px; }
   }
 </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
+<!-- LOGIN -->
 <div id="loginScreen">
   <div class="login-box">
     <h1>SEN FOOD SKOPJE</h1>
     <div class="subtitle">Cash Flow Management 2026</div>
     <input type="text" id="username" placeholder="Корисник" autocomplete="off">
     <input type="password" id="password" placeholder="Лозинка">
+    <input type="password" id="tokenInput" placeholder="GitHub Token (само првпат)" style="font-size:12px;">
+    <div class="token-note">⚠️ Токенот се чува само во твојот прелистувач. Ако веќе го имаш внесено, остави го празно.</div>
     <button onclick="doLogin()">Најави се</button>
     <div class="login-error" id="loginError">Погрешно корисничко име или лозинка</div>
   </div>
@@ -114,69 +137,81 @@
 <!-- APP -->
 <div id="app">
   <header>
-    <h1>CASH FLOW IMPORT — SEN FOOD SKOPJE 2026</h1>
-    <div class="user-info">
+    <h1>💰 CASH FLOW — SEN FOOD SKOPJE 2026</h1>
+    <div class="header-right">
       <span id="userDisplay"></span>
       <span class="badge" id="roleDisplay"></span>
-      <button class="logout-btn" onclick="doLogout()">Одјави се</button>
+      <button class="hdr-btn" onclick="doLogout()">Одјави се</button>
     </div>
   </header>
 
-  <div class="tabs">
-    <div class="tab active" onclick="switchTab('cash')">CASH FLOW</div>
-    <div class="tab" onclick="switchTab('inport')">INPORT</div>
-    <div class="tab" onclick="switchTab('aldaco')">Картица АЛДАКО</div>
-    <div class="tab" onclick="switchTab('imperijal')">Картица ИМПЕРИЈАЛ</div>
+  <div class="tabs" id="tabBar">
+    <div class="tab active" data-tab="cash">CASH FLOW</div>
+    <div class="tab" data-tab="inport">INPORT</div>
+    <div class="tab" data-tab="aldaco">Картица АЛДАКО</div>
+    <div class="tab" data-tab="imperijal">Картица ИМПЕРИЈАЛ</div>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar" id="toolbar">
+    <div class="edit-toggle">
+      <span class="edit-mode-label">✏️ Режим за менување:</span>
+      <label class="switch"><input type="checkbox" id="editSwitch" onchange="toggleEditMode()"><span class="slider"></span></label>
+    </div>
+    <div class="save-bar" id="saveBar">
+      <span class="save-status" id="saveStatus"></span>
+      <button class="cancel-btn" onclick="cancelEdits()">Откажи</button>
+      <button class="save-btn" id="saveBtn" onclick="saveChanges()">💾 Зачувај</button>
+    </div>
   </div>
 
   <div class="content">
-
-    <!-- CASH FLOW TAB -->
     <div class="tab-panel active" id="panel-cash">
       <div class="summary-row" id="cashSummary"></div>
-      <div class="table-wrap">
-        <table id="cashTable"></table>
-      </div>
+      <div class="table-wrap"><table id="cashTable"></table></div>
     </div>
-
-    <!-- INPORT TAB -->
     <div class="tab-panel" id="panel-inport">
       <div class="summary-row" id="inportSummary"></div>
-      <div class="table-wrap">
-        <table id="inportTable"></table>
-      </div>
+      <div class="table-wrap"><table id="inportTable"></table></div>
     </div>
-
-    <!-- ALDACO TAB -->
     <div class="tab-panel" id="panel-aldaco">
       <div class="summary-row" id="aldacoSummary"></div>
-      <div class="table-wrap">
-        <table id="aldacoTable"></table>
-      </div>
+      <div class="table-wrap"><table id="aldacoTable"></table></div>
     </div>
-
-    <!-- IMPERIJAL TAB -->
     <div class="tab-panel" id="panel-imperijal">
       <div class="summary-row" id="imperijalSummary"></div>
-      <div class="table-wrap">
-        <table id="imperijalTable"></table>
-      </div>
+      <div class="table-wrap"><table id="imperijalTable"></table></div>
     </div>
-
   </div>
-  <footer>SenFood Skopje &copy; 2026 — Cash Flow Dashboard | Курс: <span id="rateDisplay"></span></footer>
+  <footer>SenFood Skopje © 2026 | Курс: <span id="rateDisplay"></span></footer>
 </div>
+
+<div class="toast" id="toast"></div>
 
 <script src="data.js"></script>
 <script>
+// ============================================================
+// STATE
+// ============================================================
+let editMode = false;
+let hasChanges = false;
+let currentUser = null;
+
+const REPO_OWNER = 'ersinmusli-ai';
+const REPO_NAME = 'cash-flow';
+const DATA_FILE = 'data.js';
+
 // ============================================================
 // AUTH
 // ============================================================
 function doLogin() {
   const u = document.getElementById('username').value.trim().toLowerCase();
   const p = document.getElementById('password').value;
+  const t = document.getElementById('tokenInput').value.trim();
   if (USERS[u] && USERS[u].password === p) {
+    if (t) localStorage.setItem('gh_token', t);
     sessionStorage.setItem('user', u);
+    currentUser = u;
     showApp(u);
   } else {
     document.getElementById('loginError').style.display = 'block';
@@ -184,10 +219,13 @@ function doLogin() {
 }
 function doLogout() {
   sessionStorage.removeItem('user');
+  currentUser = null;
+  editMode = false;
+  document.getElementById('editSwitch').checked = false;
   document.getElementById('app').style.display = 'none';
   document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('username').value = '';
   document.getElementById('password').value = '';
+  document.getElementById('tokenInput').value = '';
   document.getElementById('loginError').style.display = 'none';
 }
 function showApp(u) {
@@ -198,12 +236,10 @@ function showApp(u) {
   document.getElementById('rateDisplay').textContent = EXCHANGE_RATE;
   renderAll();
 }
-// Auto-login if session exists
-(function() {
+(function(){
   const u = sessionStorage.getItem('user');
-  if (u && USERS[u]) showApp(u);
+  if (u && USERS[u]) { currentUser = u; showApp(u); }
 })();
-// Enter key on login
 document.addEventListener('keydown', e => {
   if (e.key === 'Enter' && document.getElementById('loginScreen').style.display !== 'none') doLogin();
 });
@@ -211,11 +247,30 @@ document.addEventListener('keydown', e => {
 // ============================================================
 // TABS
 // ============================================================
-function switchTab(id) {
-  document.querySelectorAll('.tab').forEach((t,i) => t.classList.remove('active'));
+document.getElementById('tabBar').addEventListener('click', e => {
+  const tab = e.target.closest('.tab');
+  if (!tab) return;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelector(`#panel-${id}`).classList.add('active');
-  event.target.classList.add('active');
+  tab.classList.add('active');
+  document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+});
+
+// ============================================================
+// EDIT MODE
+// ============================================================
+function toggleEditMode() {
+  editMode = document.getElementById('editSwitch').checked;
+  document.getElementById('saveBar').classList.toggle('visible', editMode);
+  document.getElementById('saveStatus').textContent = '';
+  renderAll();
+}
+function cancelEdits() {
+  editMode = false;
+  hasChanges = false;
+  document.getElementById('editSwitch').checked = false;
+  document.getElementById('saveBar').classList.remove('visible');
+  renderAll();
 }
 
 // ============================================================
@@ -225,98 +280,187 @@ function fmt(n, dec=0) {
   if (n === 0) return '—';
   return n.toLocaleString('de-DE', { minimumFractionDigits: dec, maximumFractionDigits: dec });
 }
-function fmtClass(n) {
-  if (n > 0) return 'num-positive';
-  if (n < 0) return 'num-negative';
-  return '';
+function fmtClass(n) { return n > 0 ? 'num-positive' : n < 0 ? 'num-negative' : ''; }
+
+function editableCell(val, rowKey, colIdx, dec=0) {
+  if (!editMode) return `<td>${fmt(val, dec)}</td>`;
+  return `<td class="editable" onclick="startEdit(this, '${rowKey}', ${colIdx}, ${dec})">
+    ${fmt(val, dec)}</td>`;
+}
+function startEdit(td, rowKey, colIdx, dec) {
+  if (td.querySelector('input')) return;
+  const currentVal = CASH_DATA.rows[rowKey][colIdx];
+  td.classList.add('editing');
+  td.innerHTML = `<input type="number" step="0.01" value="${currentVal}"
+    onblur="finishEdit(this, '${rowKey}', ${colIdx})"
+    onkeydown="if(event.key==='Enter')this.blur()">`;
+  td.querySelector('input').focus();
+  td.querySelector('input').select();
+}
+function finishEdit(input, rowKey, colIdx) {
+  const newVal = parseFloat(input.value) || 0;
+  const oldVal = CASH_DATA.rows[rowKey][colIdx];
+  if (newVal !== oldVal) {
+    CASH_DATA.rows[rowKey][colIdx] = newVal;
+    hasChanges = true;
+    document.getElementById('saveStatus').textContent = '⚠️ Има незачувани промени';
+    document.getElementById('saveStatus').style.color = 'var(--accent)';
+  }
+  renderAll();
+}
+
+// ============================================================
+// SAVE TO GITHUB
+// ============================================================
+async function saveChanges() {
+  const token = localStorage.getItem('gh_token');
+  if (!token) { showToast('Внесете GitHub Token при логирање!', 'error'); return; }
+
+  const btn = document.getElementById('saveBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Зачувувам...';
+
+  try {
+    // Get current file SHA
+    const getRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE}`, {
+      headers: { 'Authorization': `token ${token}` }
+    });
+    if (!getRes.ok) throw new Error('Не можам да го најдам фајлот на GitHub');
+    const fileInfo = await getRes.json();
+
+    // Generate new data.js content
+    const newContent = generateDataJS();
+
+    // Commit
+    const putRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE}`, {
+      method: 'PUT',
+      headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: `Ажурирање: ${USERS[currentUser].name} - ${new Date().toLocaleString('mk-MK')}`,
+        content: btoa(unescape(encodeURIComponent(newContent))),
+        sha: fileInfo.sha
+      })
+    });
+    if (!putRes.ok) throw new Error('Грешка при зачувување');
+
+    hasChanges = false;
+    document.getElementById('saveStatus').textContent = '✅ Зачувано!';
+    document.getElementById('saveStatus').style.color = 'var(--green)';
+    showToast('✅ Промените се зачувани!', 'success');
+  } catch (err) {
+    showToast('❌ Грешка: ' + err.message, 'error');
+  }
+  btn.disabled = false;
+  btn.textContent = '💾 Зачувај';
+}
+
+function generateDataJS() {
+  const r = CASH_DATA.rows;
+  const arrStr = (arr) => '[' + arr.map(v => v).join(', ') + ']';
+  return `// DATA.JS - SenFood Skopje Cash Flow 2026
+// Последна промена: ${new Date().toLocaleString('mk-MK')} од ${USERS[currentUser]?.name || 'unknown'}
+
+const EXCHANGE_RATE = ${EXCHANGE_RATE};
+
+const CASH_DATA = {
+  rate: EXCHANGE_RATE,
+  months: ${JSON.stringify(CASH_DATA.months)},
+  rows: {
+    invoiceAldaco:    ${arrStr(r.invoiceAldaco)},
+    invoiceImperijal: ${arrStr(r.invoiceImperijal)},
+    transferFrom2025: ${arrStr(r.transferFrom2025)},
+    other:            ${arrStr(r.other)},
+    paidInvoices:     ${arrStr(r.paidInvoices)},
+    exchangeDiff:     ${arrStr(r.exchangeDiff)},
+    cashFlowTransfer: ${arrStr(r.cashFlowTransfer)},
+    spedision:        ${arrStr(r.spedision)},
+    bankCharges:      ${arrStr(r.bankCharges)},
+    custom:           ${arrStr(r.custom)},
+    variousCosts:     ${arrStr(r.variousCosts)},
+    incomeDDV:        ${arrStr(r.incomeDDV)},
+    expensesDDV:      ${arrStr(r.expensesDDV)},
+  },
+  rowLabels: ${JSON.stringify(CASH_DATA.rowLabels, null, 4)}
+};
+
+const INPORT_DATA = ${JSON.stringify(INPORT_DATA, null, 2)};
+
+const CARD_ALDACO = ${JSON.stringify(CARD_ALDACO, null, 2)};
+
+const CARD_IMPERIJAL = ${JSON.stringify(CARD_IMPERIJAL, null, 2)};
+
+const USERS = {
+  admin:   { password: "${USERS.admin.password}", role: "Admin",   name: "${USERS.admin.name}" },
+  manager: { password: "${USERS.manager.password}", role: "Manager", name: "${USERS.manager.name}" },
+};
+`;
+}
+
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.className = 'toast', 3000);
 }
 
 // ============================================================
 // RENDER CASH FLOW
 // ============================================================
 function renderCash() {
-  const d = CASH_DATA;
-  const r = d.rows;
-  const months = d.months;
+  const d = CASH_DATA, r = d.rows, months = d.months;
+  const toplamTutar = months.map((_,i) => r.invoiceAldaco[i]+r.invoiceImperijal[i]+r.transferFrom2025[i]+r.other[i]);
+  const summaryByMonth = months.map((_,i) => r.paidInvoices[i]+r.exchangeDiff[i]+r.cashFlowTransfer[i]+r.spedision[i]+r.bankCharges[i]+r.custom[i]+r.variousCosts[i]);
+  const lastRemaining = months.map((_,i) => toplamTutar[i]-summaryByMonth[i]);
+  const profit = months.map((_,i) => lastRemaining[i]-r.expensesDDV[i]);
+  const sum = arr => arr.reduce((a,b)=>a+b,0);
 
-  // Calculate derived rows
-  const toplamTutar = months.map((_, i) =>
-    r.invoiceAldaco[i] + r.invoiceImperijal[i] + r.transferFrom2025[i] + r.other[i]
-  );
-  const summaryByMonth = months.map((_, i) =>
-    r.paidInvoices[i] + r.exchangeDiff[i] + r.cashFlowTransfer[i] +
-    r.spedision[i] + r.bankCharges[i] + r.custom[i] + r.variousCosts[i]
-  );
-  const lastRemaining = months.map((_, i) => toplamTutar[i] - summaryByMonth[i]);
-  const profit = months.map((_, i) => lastRemaining[i] - r.expensesDDV[i]);
-
-  const totalSum = arr => arr.reduce((a, b) => a + b, 0);
-
-  // Summary cards
   document.getElementById('cashSummary').innerHTML = `
-    <div class="summary-card">
-      <div class="label">Вкупно фактури 2026</div>
-      <div class="value">${fmt(totalSum(toplamTutar))}</div>
-      <div class="sub">EUR</div>
-    </div>
-    <div class="summary-card">
-      <div class="label">Вкупно платено</div>
-      <div class="value">${fmt(totalSum(r.paidInvoices))}</div>
-      <div class="sub">EUR (Senkardes)</div>
-    </div>
-    <div class="summary-card">
-      <div class="label">Вкупно царина</div>
-      <div class="value">${fmt(totalSum(r.custom))}</div>
-      <div class="sub">EUR</div>
-    </div>
-    <div class="summary-card">
-      <div class="label">Профит 2026</div>
-      <div class="value ${totalSum(profit) >= 0 ? 'positive' : 'negative'}">${fmt(totalSum(profit))}</div>
-      <div class="sub">EUR</div>
-    </div>
-  `;
+    <div class="summary-card"><div class="label">Вкупно фактури</div><div class="value">${fmt(sum(toplamTutar))}</div><div class="sub">EUR</div></div>
+    <div class="summary-card"><div class="label">Вкупно платено</div><div class="value">${fmt(sum(r.paidInvoices))}</div><div class="sub">EUR (Senkardes)</div></div>
+    <div class="summary-card"><div class="label">Вкупно царина</div><div class="value">${fmt(sum(r.custom))}</div><div class="sub">EUR</div></div>
+    <div class="summary-card"><div class="label">Профит 2026</div><div class="value ${sum(profit)>=0?'positive':'negative'}">${fmt(sum(profit))}</div><div class="sub">EUR</div></div>`;
 
-  // Table
+  const editableRows = ['invoiceAldaco','invoiceImperijal','transferFrom2025','other','paidInvoices','exchangeDiff','cashFlowTransfer','spedision','bankCharges','custom','variousCosts','expensesDDV'];
   const allRows = [
-    { key:'invoiceAldaco', data: r.invoiceAldaco },
-    { key:'invoiceImperijal', data: r.invoiceImperijal },
-    { key:'transferFrom2025', data: r.transferFrom2025 },
-    { key:'other', data: r.other },
-    { key:'_toplamTutar', label:'TOPLAM TUTAR', data: toplamTutar, cls:'subtotal-row' },
-    { key:'paidInvoices', data: r.paidInvoices },
-    { key:'exchangeDiff', data: r.exchangeDiff },
-    { key:'cashFlowTransfer', data: r.cashFlowTransfer },
-    { key:'spedision', data: r.spedision },
-    { key:'bankCharges', data: r.bankCharges },
-    { key:'custom', data: r.custom },
-    { key:'variousCosts', data: r.variousCosts },
-    { key:'_summary', label:'SUMMARY BY MONTH', data: summaryByMonth, cls:'subtotal-row' },
-    { key:'_remaining', label:'LAST REMAINING', data: lastRemaining, cls:'remaining-row' },
-    { key:'_spacer', label:'', data: months.map(()=>null), cls:'' },
-    { key:'expensesDDV', data: r.expensesDDV },
-    { key:'_profit', label:'PROFIT', data: profit, cls:'remaining-row' },
+    {key:'invoiceAldaco', data:r.invoiceAldaco, ed:true},
+    {key:'invoiceImperijal', data:r.invoiceImperijal, ed:true},
+    {key:'transferFrom2025', data:r.transferFrom2025, ed:true},
+    {key:'other', data:r.other, ed:true},
+    {key:'_toplamTutar', label:'TOPLAM TUTAR', data:toplamTutar, cls:'subtotal-row'},
+    {key:'paidInvoices', data:r.paidInvoices, ed:true},
+    {key:'exchangeDiff', data:r.exchangeDiff, ed:true, dec:2},
+    {key:'cashFlowTransfer', data:r.cashFlowTransfer, ed:true},
+    {key:'spedision', data:r.spedision, ed:true},
+    {key:'bankCharges', data:r.bankCharges, ed:true},
+    {key:'custom', data:r.custom, ed:true},
+    {key:'variousCosts', data:r.variousCosts, ed:true},
+    {key:'_summary', label:'SUMMARY BY MONTH', data:summaryByMonth, cls:'subtotal-row'},
+    {key:'_remaining', label:'LAST REMAINING', data:lastRemaining, cls:'remaining-row'},
+    {key:'expensesDDV', label:'EXPENSES DDV', data:r.expensesDDV, ed:true},
+    {key:'_profit', label:'PROFIT', data:profit, cls:'remaining-row'},
   ];
 
+  const sm = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   let html = '<thead><tr><th>Ред</th>';
-  // Show abbreviated months
-  const shortMonths = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  shortMonths.forEach(m => html += `<th>${m}</th>`);
+  sm.forEach(m => html += `<th>${m}</th>`);
   html += '<th>TOTAL</th></tr></thead><tbody>';
 
   allRows.forEach(row => {
     const label = row.label || d.rowLabels[row.key] || '';
     const cls = row.cls || '';
+    const dec = row.dec || 0;
     html += `<tr class="${cls}"><td>${label}</td>`;
-    row.data.forEach(v => {
-      if (v === null) { html += '<td></td>'; return; }
-      const dec = row.key === 'exchangeDiff' || row.key === '_profit' || row.key === '_remaining' ? 2 : 0;
-      const cClass = (row.key === '_remaining' || row.key === '_profit') ? fmtClass(v) : '';
-      html += `<td class="${cClass}">${fmt(v, dec)}</td>`;
+    row.data.forEach((v,i) => {
+      if (row.ed && editMode) {
+        html += editableCell(v, row.key, i, dec);
+      } else {
+        const c = (row.key==='_remaining'||row.key==='_profit') ? fmtClass(v) : '';
+        html += `<td class="${c}">${fmt(v, dec)}</td>`;
+      }
     });
-    const total = row.data.filter(v => v !== null).reduce((a,b) => a+b, 0);
-    const dec = row.key === 'exchangeDiff' || row.key === '_profit' || row.key === '_remaining' ? 2 : 0;
-    const cClass = (row.key === '_remaining' || row.key === '_profit') ? fmtClass(total) : '';
-    html += `<td class="${cClass}"><strong>${total !== 0 ? fmt(total, dec) : '—'}</strong></td></tr>`;
+    const total = row.data.reduce((a,b)=>a+b,0);
+    const c = (row.key==='_remaining'||row.key==='_profit') ? fmtClass(total) : '';
+    html += `<td class="${c}"><strong>${total?fmt(total,dec):'—'}</strong></td></tr>`;
   });
   html += '</tbody>';
   document.getElementById('cashTable').innerHTML = html;
@@ -328,157 +472,80 @@ function renderCash() {
 function renderInport() {
   const data = INPORT_DATA;
   const grouped = {};
-  data.forEach(inv => {
-    if (!grouped[inv.month]) grouped[inv.month] = [];
-    grouped[inv.month].push(inv);
-  });
+  data.forEach(inv => { if(!grouped[inv.month]) grouped[inv.month]=[]; grouped[inv.month].push(inv); });
 
-  // Summary
-  const totalInv = data.reduce((s,i) => s + i.amountInv, 0);
-  const totalCosts = data.reduce((s,i) => s + i.amountInv + i.transport + i.spedision + i.ddv + i.custom + (i.banka||0), 0);
-  const totalSK = data.reduce((s,i) => s + i.skAmount, 0);
-  const totalProfit = totalSK - totalCosts;
-  const profitPct = totalCosts > 0 ? (totalProfit / totalCosts * 100) : 0;
+  const totalInv = data.reduce((s,i)=>s+i.amountInv,0);
+  const totalCosts = data.reduce((s,i)=>s+i.amountInv+i.transport+i.spedision+i.ddv+i.custom+(i.banka||0),0);
+  const totalSK = data.reduce((s,i)=>s+i.skAmount,0);
+  const totalProfit = totalSK-totalCosts;
+  const pct = totalCosts>0?(totalProfit/totalCosts*100):0;
 
   document.getElementById('inportSummary').innerHTML = `
-    <div class="summary-card">
-      <div class="label">Вкупно фактури (EUR)</div>
-      <div class="value">${fmt(totalInv)}</div>
-    </div>
-    <div class="summary-card">
-      <div class="label">Вкупно трошоци (EUR)</div>
-      <div class="value">${fmt(totalCosts)}</div>
-    </div>
-    <div class="summary-card">
-      <div class="label">SenFood продажба</div>
-      <div class="value">${fmt(totalSK)}</div>
-    </div>
-    <div class="summary-card">
-      <div class="label">Профит / %</div>
-      <div class="value positive">${fmt(totalProfit)} / ${profitPct.toFixed(2)}%</div>
-    </div>
-  `;
+    <div class="summary-card"><div class="label">Фактури (EUR)</div><div class="value">${fmt(totalInv)}</div></div>
+    <div class="summary-card"><div class="label">Трошоци (EUR)</div><div class="value">${fmt(totalCosts)}</div></div>
+    <div class="summary-card"><div class="label">Продажба SK</div><div class="value">${fmt(totalSK)}</div></div>
+    <div class="summary-card"><div class="label">Профит / %</div><div class="value positive">${fmt(totalProfit)} / ${pct.toFixed(2)}%</div></div>`;
 
-  let html = `<thead><tr>
-    <th>Месец</th><th>Фактура</th><th>Датум</th><th>Клиент</th><th>Бр. факт.</th>
-    <th>Amount Inv</th><th>Transport</th><th>DDV</th><th>Custom</th>
-    <th>Fr&Costs</th><th>SK Amount</th><th>Profit</th><th>%</th><th>Status</th>
-  </tr></thead><tbody>`;
+  let html = `<thead><tr><th>Месец</th><th>Бр. факт.</th><th>Датум</th><th>Клиент</th>
+    <th>Amount</th><th>Transport</th><th>DDV</th><th>Custom</th>
+    <th>Costs</th><th>SK Amount</th><th>Profit</th><th>%</th><th>Status</th></tr></thead><tbody>`;
 
-  const monthOrder = ['January','February','March','April','May','June','July','August'];
-  monthOrder.forEach(month => {
-    const invs = grouped[month];
-    if (!invs) return;
-    const mTotal = invs.reduce((s,i) => s + i.amountInv + i.transport + i.spedision + i.ddv + i.custom + (i.banka||0), 0);
-    const mSK = invs.reduce((s,i) => s + i.skAmount, 0);
-
+  ['January','February','March','April','May','June','July'].forEach(month => {
+    const invs = grouped[month]; if(!invs) return;
     invs.forEach(inv => {
-      const frCosts = inv.amountInv + inv.transport + inv.spedision + inv.ddv + inv.custom + (inv.banka||0);
-      const profit = inv.skAmount - frCosts;
-      const pct = frCosts > 0 ? (profit / frCosts * 100) : 0;
-      const statusCls = inv.status === 'paid' ? 'status-paid' : 'status-unpaid';
-      const statusTxt = inv.status === 'paid' ? '✅ Исплатена' : '❌ Неисплатена';
-      html += `<tr>
-        <td>${month}</td><td>${inv.invoice}</td><td>${inv.date}</td>
-        <td>${inv.client}</td><td>${inv.invNo}</td>
-        <td>${fmt(inv.amountInv, 2)}</td><td>${fmt(inv.transport)}</td>
-        <td>${fmt(inv.ddv)}</td><td>${fmt(inv.custom)}</td>
-        <td>${fmt(frCosts, 2)}</td><td>${fmt(inv.skAmount)}</td>
-        <td class="${fmtClass(profit)}">${fmt(profit, 2)}</td>
-        <td>${pct.toFixed(2)}%</td>
-        <td><span class="${statusCls}">${statusTxt}</span></td>
-      </tr>`;
+      const fr = inv.amountInv+inv.transport+inv.spedision+inv.ddv+inv.custom+(inv.banka||0);
+      const pr = inv.skAmount-fr;
+      const pc = fr>0?(pr/fr*100):0;
+      const st = inv.status==='paid' ? '<span class="status-paid">✅</span>' : '<span class="status-unpaid">❌</span>';
+      html += `<tr><td>${month}</td><td>${inv.invNo}</td><td>${inv.date}</td><td>${inv.client}</td>
+        <td>${fmt(inv.amountInv,2)}</td><td>${fmt(inv.transport)}</td><td>${fmt(inv.ddv)}</td><td>${fmt(inv.custom)}</td>
+        <td>${fmt(fr,2)}</td><td>${fmt(inv.skAmount)}</td><td class="${fmtClass(pr)}">${fmt(pr,2)}</td>
+        <td>${pc.toFixed(1)}%</td><td>${st}</td></tr>`;
     });
-
-    // Monthly subtotal
-    const mProfit = mSK - mTotal;
-    html += `<tr class="subtotal-row">
-      <td colspan="5"><strong>${month} Total</strong></td>
-      <td colspan="4"></td>
-      <td><strong>${fmt(mTotal, 2)}</strong></td><td><strong>${fmt(mSK)}</strong></td>
-      <td class="${fmtClass(mProfit)}"><strong>${fmt(mProfit, 2)}</strong></td>
-      <td colspan="2"></td>
-    </tr>`;
+    const mT=invs.reduce((s,i)=>s+i.amountInv+i.transport+i.spedision+i.ddv+i.custom+(i.banka||0),0);
+    const mS=invs.reduce((s,i)=>s+i.skAmount,0);
+    html+=`<tr class="subtotal-row"><td colspan="4"><strong>${month} Total</strong></td><td colspan="4"></td>
+      <td><strong>${fmt(mT,2)}</strong></td><td><strong>${fmt(mS)}</strong></td>
+      <td class="${fmtClass(mS-mT)}"><strong>${fmt(mS-mT,2)}</strong></td><td colspan="2"></td></tr>`;
   });
-
   html += '</tbody>';
   document.getElementById('inportTable').innerHTML = html;
 }
 
 // ============================================================
-// RENDER FINANCIAL CARD (ALDACO / IMPERIJAL)
+// RENDER CARDS
 // ============================================================
-function renderCard(data, tableId, summaryId, title) {
+function renderCard(data, tableId, summaryId) {
   let saldo = 0;
-  const rows = data.map(row => {
-    if (row.dolgува > 0) saldo += row.dolgува;
-    if (row.pobaruva > 0) saldo -= row.pobaruva;
-    return { ...row, saldo };
-  });
-
-  const totalDolgува = data.reduce((s,r) => s + (r.dolgува||0), 0);
-  const totalPobaruva = data.reduce((s,r) => s + (r.pobaruva||0), 0);
-  const balance = totalDolgува - totalPobaruva;
-  const paidCount = data.filter(r => r.status === 'paid').length;
-  const unpaidCount = data.filter(r => r.status === 'unpaid').length;
+  const rows = data.map(r => { if(r.dolgува>0)saldo+=r.dolgува; if(r.pobaruva>0)saldo-=r.pobaruva; return {...r,saldo}; });
+  const tD = data.reduce((s,r)=>s+(r.dolgува||0),0);
+  const tP = data.reduce((s,r)=>s+(r.pobaruva||0),0);
+  const bal = tD-tP;
+  const paid = data.filter(r=>r.status==='paid').length;
+  const unpaid = data.filter(r=>r.status==='unpaid').length;
 
   document.getElementById(summaryId).innerHTML = `
-    <div class="summary-card">
-      <div class="label">Вкупно долгува</div>
-      <div class="value">${fmt(totalDolgува)} ден</div>
-    </div>
-    <div class="summary-card">
-      <div class="label">Вкупно побарува</div>
-      <div class="value">${fmt(totalPobaruva)} ден</div>
-    </div>
-    <div class="summary-card">
-      <div class="label">Салдо</div>
-      <div class="value ${balance > 0 ? 'negative' : 'positive'}">${fmt(balance)} ден</div>
-    </div>
-    <div class="summary-card">
-      <div class="label">Фактури</div>
-      <div class="value">${paidCount + unpaidCount}</div>
-      <div class="sub">✅ ${paidCount} платени &nbsp; ❌ ${unpaidCount} неплатени</div>
-    </div>
-  `;
+    <div class="summary-card"><div class="label">Долгува</div><div class="value">${fmt(tD)} ден</div></div>
+    <div class="summary-card"><div class="label">Побарува</div><div class="value">${fmt(tP)} ден</div></div>
+    <div class="summary-card"><div class="label">Салдо</div><div class="value ${bal>0?'negative':'positive'}">${fmt(bal)} ден</div></div>
+    <div class="summary-card"><div class="label">Фактури</div><div class="value">${paid+unpaid}</div><div class="sub">✅${paid} / ❌${unpaid}</div></div>`;
 
-  let html = `<thead><tr>
-    <th>Датум</th><th>Опис</th><th>Долгува (ден)</th><th>Побарува (ден)</th>
-    <th>Салдо (ден)</th><th>Валута</th><th>Статус</th>
-  </tr></thead><tbody>`;
-
+  let html = `<thead><tr><th>Датум</th><th>Опис</th><th>Долгува</th><th>Побарува</th><th>Салдо</th><th>Валута</th><th>Статус</th></tr></thead><tbody>`;
   rows.forEach(r => {
-    const statusHtml = r.status === 'paid' ? '<span class="status-paid">✅ Исплатена</span>'
-      : r.status === 'unpaid' ? '<span class="status-unpaid">❌ Неисплатена</span>' : '';
-    html += `<tr>
-      <td>${r.date}</td><td>${r.desc}</td>
-      <td>${r.dolgува ? fmt(r.dolgува) : ''}</td>
-      <td>${r.pobaruva ? fmt(r.pobaruva) : ''}</td>
-      <td>${fmt(r.saldo)}</td>
-      <td>${r.valuta || ''}</td>
-      <td>${statusHtml}</td>
-    </tr>`;
+    const st = r.status==='paid'?'<span class="status-paid">✅</span>':r.status==='unpaid'?'<span class="status-unpaid">❌</span>':'';
+    html+=`<tr><td>${r.date}</td><td>${r.desc}</td><td>${r.dolgува?fmt(r.dolgува):''}</td>
+      <td>${r.pobaruva?fmt(r.pobaruva):''}</td><td>${fmt(r.saldo)}</td><td>${r.valuta||''}</td><td>${st}</td></tr>`;
   });
-
-  html += `<tr class="total-row">
-    <td colspan="2"><strong>ВКУПНО</strong></td>
-    <td><strong>${fmt(totalDolgува)}</strong></td>
-    <td><strong>${fmt(totalPobaruva)}</strong></td>
-    <td><strong>${fmt(balance)}</strong></td>
-    <td colspan="2"></td>
-  </tr></tbody>`;
-
+  html+=`<tr class="total-row"><td colspan="2"><strong>ВКУПНО</strong></td><td><strong>${fmt(tD)}</strong></td>
+    <td><strong>${fmt(tP)}</strong></td><td><strong>${fmt(bal)}</strong></td><td colspan="2"></td></tr></tbody>`;
   document.getElementById(tableId).innerHTML = html;
 }
 
-// ============================================================
-// RENDER ALL
-// ============================================================
 function renderAll() {
   renderCash();
   renderInport();
-  renderCard(CARD_ALDACO, 'aldacoTable', 'aldacoSummary', 'АЛДАКО');
-  renderCard(CARD_IMPERIJAL, 'imperijalTable', 'imperijalSummary', 'ИМПЕРИЈАЛ');
+  renderCard(CARD_ALDACO,'aldacoTable','aldacoSummary');
+  renderCard(CARD_IMPERIJAL,'imperijalTable','imperijalSummary');
 }
 </script>
 </body>
