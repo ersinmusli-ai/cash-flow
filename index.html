@@ -73,6 +73,10 @@
   .status-paid { background: #e8f5e9; color: #2e7d32; padding: 3px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
   .status-unpaid { background: #ffebee; color: #c62828; padding: 3px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
 
+  /* DELETE BUTTON */
+  .del-btn { background: none; border: 1px solid #ddd; color: var(--red); cursor: pointer; padding: 3px 8px; border-radius: 4px; font-size: 12px; }
+  .del-btn:hover { background: #ffebee; border-color: var(--red); }
+
   /* ADD BUTTON */
   .add-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px; flex-wrap:wrap; gap:10px; }
   .add-btn { background: var(--green); color:#fff; border:none; padding: 10px 22px; border-radius: 8px; font-size: 14px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:6px; }
@@ -98,6 +102,10 @@
   .modal .btn-save:hover { background: #219a52; }
   .modal .calc-preview { background: #f0f4f8; border-radius: 8px; padding: 12px 16px; margin-top: 12px; font-size: 13px; }
   .modal .calc-preview strong { color: var(--primary); }
+
+  /* GLOBAL SAVE BAR */
+  .global-save-bar { display:flex; align-items:center; justify-content:space-between; padding: 10px 24px; background: #fff3e0; border-bottom: 2px solid var(--accent); font-size: 14px; color: var(--text); }
+  .global-save-bar strong { color: var(--red); }
 
   /* TOAST */
   .toast { position:fixed; bottom:30px; right:30px; padding:14px 24px; border-radius:8px; color:#fff; font-size:14px; font-weight:600; z-index:999; display:none; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
@@ -152,6 +160,12 @@
     <div class="tab" data-tab="imperijal">Картица ИМПЕРИЈАЛ</div>
   </div>
 
+  <!-- GLOBAL SAVE BAR -->
+  <div class="global-save-bar" id="globalSaveBar" style="display:none;">
+    <span>⚠️ Имате <strong id="changeCount">0</strong> незачувани промени</span>
+    <button class="save-all-btn" id="saveBtn" onclick="saveChanges()">💾 Зачувај на GitHub</button>
+  </div>
+
   <div class="content">
     <!-- CASH -->
     <div class="tab-panel active" id="panel-cash">
@@ -162,10 +176,6 @@
     <div class="tab-panel" id="panel-inport">
       <div class="add-bar">
         <button class="add-btn" onclick="openAddInvoice()">➕ Додај нова фактура</button>
-        <div>
-          <button class="save-all-btn" id="saveBtn" onclick="saveChanges()" disabled>💾 Зачувај на GitHub</button>
-          <span class="changes-badge" id="changesBadge" style="display:none">0</span>
-        </div>
       </div>
       <div class="summary-row" id="inportSummary"></div>
       <div class="table-wrap"><table id="inportTable"></table></div>
@@ -431,8 +441,23 @@ function addCardEntry(){
     status: (type==='invoice') ? document.getElementById('cStatus').value : ''
   };
 
-  if(currentCardTarget==='aldaco') CARD_ALDACO.push(entry);
-  else CARD_IMPERIJAL.push(entry);
+  const targetArr = currentCardTarget==='aldaco' ? CARD_ALDACO : CARD_IMPERIJAL;
+  targetArr.push(entry);
+
+  // Auto-update invoice status to "paid" when uplata is added
+  if(type==='uplata'){
+    targetArr.forEach(r => {
+      if(r.desc === 'Ф-ра '+invNo && r.status === 'unpaid'){
+        r.status = 'paid';
+      }
+    });
+    // Also update INPORT_DATA status
+    INPORT_DATA.forEach(inv => {
+      if(inv.invNo === invNo && inv.status === 'unpaid'){
+        inv.status = 'paid';
+      }
+    });
+  }
 
   pendingChanges++;
   updateChanges();
@@ -442,18 +467,21 @@ function addCardEntry(){
   document.getElementById('cDate').value='';
   document.getElementById('cValuta').value='';
   renderAll();
-  showToast('✅ Запис додаден!','success');
+  showToast('✅ Запис додаден!' + (type==='uplata' ? ' Фактурата е означена како исплатена.' : ''),'success');
 }
 
 // ============================================================
 // CHANGES TRACKING & SAVE
 // ============================================================
 function updateChanges(){
-  const btn = document.getElementById('saveBtn');
-  const badge = document.getElementById('changesBadge');
-  btn.disabled = pendingChanges===0;
-  badge.style.display = pendingChanges>0?'inline':'none';
-  badge.textContent = pendingChanges;
+  const bar = document.getElementById('globalSaveBar');
+  const count = document.getElementById('changeCount');
+  if(pendingChanges > 0){
+    bar.style.display = 'flex';
+    count.textContent = pendingChanges;
+  } else {
+    bar.style.display = 'none';
+  }
 }
 
 async function saveChanges(){
@@ -525,6 +553,30 @@ const USERS = {
 };`;
 }
 
+// ============================================================
+// DELETE FUNCTIONS
+// ============================================================
+function deleteInport(idx){
+  const inv = INPORT_DATA[idx];
+  if(!confirm(`Избриши фактура ${inv.invNo} (${inv.client}, ${fmt(inv.amountInv,2)} EUR)?`)) return;
+  INPORT_DATA.splice(idx, 1);
+  pendingChanges++;
+  updateChanges();
+  renderAll();
+  showToast('🗑️ Фактура '+inv.invNo+' избришана!','success');
+}
+
+function deleteCard(cardName, idx){
+  const arr = cardName==='aldaco' ? CARD_ALDACO : CARD_IMPERIJAL;
+  const entry = arr[idx];
+  if(!confirm(`Избриши: ${entry.desc} (${fmt(entry.dolgува||entry.pobaruva)} ден)?`)) return;
+  arr.splice(idx, 1);
+  pendingChanges++;
+  updateChanges();
+  renderAll();
+  showToast('🗑️ Запис избришан!','success');
+}
+
 function showToast(msg,type){const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type+' show';setTimeout(()=>t.className='toast',3500);}
 
 // ============================================================
@@ -581,52 +633,16 @@ function renderInport(){
     <div class="summary-card"><div class="label">Продажба</div><div class="value">${fmt(tS)}</div></div>
     <div class="summary-card"><div class="label">Профит</div><div class="value positive">${fmt(tS-tC)} / ${tC>0?((tS-tC)/tC*100).toFixed(1):'0'}%</div></div>`;
 
-  let h=`<thead><tr><th>Месец</th><th>Бр.</th><th>Датум</th><th>Клиент</th><th>Amount</th><th>Transport</th><th>DDV</th><th>Custom</th><th>Costs</th><th>SK Amt</th><th>Profit</th><th>%</th><th>St</th></tr></thead><tbody>`;
+  let h=`<thead><tr><th>Месец</th><th>Бр.</th><th>Датум</th><th>Клиент</th><th>Amount</th><th>Transport</th><th>DDV</th><th>Custom</th><th>Costs</th><th>SK Amt</th><th>Profit</th><th>%</th><th>St</th><th></th></tr></thead><tbody>`;
   ['January','February','March','April','May','June','July','August','September','October','November','December'].forEach(month=>{
     const invs=grouped[month];if(!invs)return;
     invs.forEach(i=>{
+      const idx = INPORT_DATA.indexOf(i);
       const fr=i.amountInv+i.transport+i.spedision+i.ddv+i.custom+(i.banka||0);
       const p=i.skAmount-fr;const pc=fr>0?(p/fr*100):0;
       const st=i.status==='paid'?'<span class="status-paid">✅</span>':'<span class="status-unpaid">❌</span>';
-      h+=`<tr><td>${month.substr(0,3)}</td><td>${i.invNo}</td><td>${i.date}</td><td>${i.client}</td><td>${fmt(i.amountInv,2)}</td><td>${fmt(i.transport)}</td><td>${fmt(i.ddv)}</td><td>${fmt(i.custom)}</td><td>${fmt(fr,2)}</td><td>${fmt(i.skAmount)}</td><td class="${fmtClass(p)}">${fmt(p,2)}</td><td>${pc.toFixed(1)}%</td><td>${st}</td></tr>`;
+      h+=`<tr><td>${month.substr(0,3)}</td><td>${i.invNo}</td><td>${i.date}</td><td>${i.client}</td><td>${fmt(i.amountInv,2)}</td><td>${fmt(i.transport)}</td><td>${fmt(i.ddv)}</td><td>${fmt(i.custom)}</td><td>${fmt(fr,2)}</td><td>${fmt(i.skAmount)}</td><td class="${fmtClass(p)}">${fmt(p,2)}</td><td>${pc.toFixed(1)}%</td><td>${st}</td><td><button class="del-btn" onclick="deleteInport(${idx})" title="Избриши">🗑️</button></td></tr>`;
     });
     const mT=invs.reduce((s,i)=>s+i.amountInv+i.transport+i.spedision+i.ddv+i.custom+(i.banka||0),0);
     const mS=invs.reduce((s,i)=>s+i.skAmount,0);
-    h+=`<tr class="subtotal-row"><td colspan="4"><strong>${month}</strong></td><td colspan="4"></td><td><strong>${fmt(mT,2)}</strong></td><td><strong>${fmt(mS)}</strong></td><td class="${fmtClass(mS-mT)}"><strong>${fmt(mS-mT,2)}</strong></td><td colspan="2"></td></tr>`;
-  });
-  h+='</tbody>';
-  document.getElementById('inportTable').innerHTML=h;
-}
-
-function renderCard(data,tableId,summaryId){
-  let saldo=0;
-  const rows=data.map(r=>{if(r.dolgува>0)saldo+=r.dolgува;if(r.pobaruva>0)saldo-=r.pobaruva;return{...r,saldo};});
-  const tD=data.reduce((s,r)=>s+(r.dolgува||0),0);
-  const tP=data.reduce((s,r)=>s+(r.pobaruva||0),0);
-  const bal=tD-tP;
-  const paid=data.filter(r=>r.status==='paid').length;
-  const unpaid=data.filter(r=>r.status==='unpaid').length;
-
-  document.getElementById(summaryId).innerHTML=`
-    <div class="summary-card"><div class="label">Долгува</div><div class="value">${fmt(tD)} ден</div></div>
-    <div class="summary-card"><div class="label">Побарува</div><div class="value">${fmt(tP)} ден</div></div>
-    <div class="summary-card"><div class="label">Салдо</div><div class="value ${bal>0?'negative':'positive'}">${fmt(bal)} ден</div></div>
-    <div class="summary-card"><div class="label">Фактури</div><div class="value">${paid+unpaid}</div><div class="sub">✅${paid} / ❌${unpaid}</div></div>`;
-
-  let h=`<thead><tr><th>Датум</th><th>Опис</th><th>Долгува</th><th>Побарува</th><th>Салдо</th><th>Валута</th><th>Ст</th></tr></thead><tbody>`;
-  rows.forEach(r=>{
-    const st=r.status==='paid'?'<span class="status-paid">✅</span>':r.status==='unpaid'?'<span class="status-unpaid">❌</span>':'';
-    h+=`<tr><td>${r.date}</td><td>${r.desc}</td><td>${r.dolgува?fmt(r.dolgува):''}</td><td>${r.pobaruva?fmt(r.pobaruva):''}</td><td>${fmt(r.saldo)}</td><td>${r.valuta||''}</td><td>${st}</td></tr>`;
-  });
-  h+=`<tr class="total-row"><td colspan="2"><strong>ВКУПНО</strong></td><td><strong>${fmt(tD)}</strong></td><td><strong>${fmt(tP)}</strong></td><td><strong>${fmt(bal)}</strong></td><td colspan="2"></td></tr></tbody>`;
-  document.getElementById(tableId).innerHTML=h;
-}
-
-function renderAll(){
-  renderCash();renderInport();
-  renderCard(CARD_ALDACO,'aldacoTable','aldacoSummary');
-  renderCard(CARD_IMPERIJAL,'imperijalTable','imperijalSummary');
-}
-</script>
-</body>
-</html>
+    h+=`<tr class="subtotal-row"><td colspan="4"><strong>${month}</strong></td><td colspan="4"></td><td><strong>${fmt(mT,2)}</strong></td><td><strong>${fmt(mS)}</strong></td><td class="${fmtClass(mS-mT)}"><strong>${fmt(mS-mT,2)}</strong></td><td colspan="3"></td></tr>`;
