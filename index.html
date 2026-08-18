@@ -166,6 +166,10 @@
     <button class="save-all-btn" id="saveBtn" onclick="saveChanges()">💾 Зачувај на GitHub</button>
   </div>
 
+  <div style="display:flex;justify-content:flex-end;padding:8px 16px;background:#fff;border-bottom:1px solid #dce1e8;">
+    <button onclick="refreshData()" style="background:#2d5f8a;color:#fff;border:none;padding:7px 16px;border-radius:6px;font-size:13px;cursor:pointer;">🔄 Освежи податоци</button>
+  </div>
+
   <div class="content">
     <!-- CASH -->
     <div class="tab-panel active" id="panel-cash">
@@ -518,13 +522,29 @@ async function saveChanges(){
 
     pendingChanges=0;
     updateChanges();
-    showToast('✅ Зачувано! Страницата ќе се освежи за 3 секунди...','success');
-    // Reload after delay so GitHub Pages can update
-    setTimeout(() => { location.reload(true); }, 3000);
+    showToast('✅ Зачувано на GitHub!','success');
   } catch(err) {
     showToast('❌ '+err.message,'error');
   }
   btn.disabled=false; btn.textContent='💾 Зачувај на GitHub';
+}
+
+// Load fresh data from GitHub (not Pages - bypasses cache)
+async function refreshData(){
+  const token = localStorage.getItem('gh_token');
+  if(!token){ showToast('Нема GitHub Token!','error'); return; }
+  showToast('🔄 Вчитувам свежи податоци...','success');
+  try {
+    const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE}`,
+      {headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3.raw'}});
+    if(!res.ok) throw new Error('Грешка при вчитување');
+    const code = await res.text();
+    eval(code);
+    renderAll();
+    showToast('✅ Податоците се освежени!','success');
+  } catch(err) {
+    showToast('❌ '+err.message,'error');
+  }
 }
 
 function generateDataJS(){
