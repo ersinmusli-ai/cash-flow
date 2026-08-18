@@ -681,22 +681,31 @@ function renderInport(){
 }
 
 function renderCard(data,tableId,summaryId,cardName){
+  // Calculate saldo from ALL entries (including hidden 2025)
   let saldo=0;
-  const rows=data.map((r,i)=>{if(r.dolgува>0)saldo+=r.dolgува;if(r.pobaruva>0)saldo-=r.pobaruva;return{...r,saldo,idx:i};});
+  const allRows=data.map((r,i)=>{if(r.dolgува>0)saldo+=r.dolgува;if(r.pobaruva>0)saldo-=r.pobaruva;return{...r,saldo,idx:i};});
+  
+  // Show only 2026 entries
+  const visibleRows = allRows.filter(r => r.date.includes('2026'));
+  
+  // Totals from ALL data
   const tD=data.reduce((s,r)=>s+(r.dolgува||0),0);
   const tP=data.reduce((s,r)=>s+(r.pobaruva||0),0);
   const bal=tD-tP;
-  const paid=data.filter(r=>r.status==='paid').length;
-  const unpaid=data.filter(r=>r.status==='unpaid').length;
+  
+  // Counts only from 2026
+  const data2026 = data.filter(r => r.date.includes('2026'));
+  const paid=data2026.filter(r=>r.status==='paid').length;
+  const unpaid=data2026.filter(r=>r.status==='unpaid').length;
 
   document.getElementById(summaryId).innerHTML=`
     <div class="summary-card"><div class="label">Долгува</div><div class="value">${fmt(tD)} ден</div></div>
     <div class="summary-card"><div class="label">Побарува</div><div class="value">${fmt(tP)} ден</div></div>
     <div class="summary-card"><div class="label">Салдо</div><div class="value ${bal>0?'negative':'positive'}">${fmt(bal)} ден</div></div>
-    <div class="summary-card"><div class="label">Фактури</div><div class="value">${paid+unpaid}</div><div class="sub">✅${paid} / ❌${unpaid}</div></div>`;
+    <div class="summary-card"><div class="label">Фактури 2026</div><div class="value">${paid+unpaid}</div><div class="sub">✅${paid} / ❌${unpaid}</div></div>`;
 
   let h=`<thead><tr><th>Датум</th><th>Опис</th><th>Долгува</th><th>Побарува</th><th>Салдо</th><th>Валута</th><th>Ст</th><th></th></tr></thead><tbody>`;
-  rows.forEach(r=>{
+  visibleRows.forEach(r=>{
     const st=r.status==='paid'?'<span class="status-paid">✅</span>':r.status==='unpaid'?'<span class="status-unpaid">❌</span>':'';
     h+=`<tr><td>${r.date}</td><td>${r.desc}</td><td>${r.dolgува?fmt(r.dolgува):''}</td><td>${r.pobaruva?fmt(r.pobaruva):''}</td><td>${fmt(r.saldo)}</td><td>${r.valuta||''}</td><td>${st}</td><td><button class="del-btn" onclick="deleteCard('${cardName}',${r.idx})" title="Избриши">🗑️</button></td></tr>`;
   });
