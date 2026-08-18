@@ -1,13 +1,6 @@
-// ============================================================
-// DATA.JS - Сите финансиски податоци на SenFood Skopje
-// Овој фајл го менувате за да ажурирате бројки
-// ============================================================
-
+// DATA.JS - SenFood Skopje Cash Flow 2026
+// Последна промена: 8/18/2026, 1:09:07 PM од Ersin
 const EXCHANGE_RATE = 61.7;
-
-// ============================================================
-// CASH FLOW - Главен преглед по месеци
-// ============================================================
 const CASH_DATA = {
   rate: EXCHANGE_RATE,
   months: ["January","February","March","April","May","June","July","August","September","October","November","December"],
@@ -16,199 +9,22 @@ const CASH_DATA = {
     invoiceImperijal: [82502.61, 112402.45, 102404.46, 134069.34, 64235.35, 129554.59, 132011.78, 40775.58, 0, 0, 0, 0],
     transferFrom2025: [150044, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     other:            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    // TOPLAM TUTAR = sum of above 4 rows (auto-calculated)
-    paidInvoices:     [311442, 90532, 351107, 197624.30, 36070, 245749.60, 264777, 84340.60, 0, 0, 0, 0],
-    exchangeDiff:     [1009.54, 293.46, 1138.11, 640.60, 116.92, 796.60, 858.27, 273.39, 0, 0, 0, 0],
+    paidInvoices:     [311442, 90532, 351107, 197624.3, 36070, 245749.6, 264777, 84340.6, 0, 0, 0, 0],
+    exchangeDiff:     [1009.54, 293.46, 1138.11, 640.6, 116.92, 796.6, 858.27, 273.39, 0, 0, 0, 0],
     cashFlowTransfer: [20000, 30000, 20000, 15000, 0, 20000, 10000, 0, 0, 0, 0, 0],
     spedision:        [509, 629, 502, 370, 756, 566, 307, 0, 0, 0, 0, 0],
     bankCharges:      [38, 124, 86, 25, 0, 0, 0, 0, 0, 0, 0, 0],
     custom:           [31477, 30312, 28011, 17872, 44712, 42947, 16843, 0, 0, 0, 0, 0],
     variousCosts:     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    // SUMMARY BY MONTH = sum rows 5-11 (auto-calculated)
-    // LAST REMAINING = TOPLAM TUTAR - SUMMARY (auto-calculated)
     incomeDDV:        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     expensesDDV:      [12368, 11801, 10936, 6890, 17509, 16744, 6577, 0, 0, 0, 0, 0],
   },
-  rowLabels: {
-    invoiceAldaco:    'AMOUNT OF INVOICE "ALDACO"',
-    invoiceImperijal: 'AMOUNT OF INVOICE "IMPERIJAL TABAKO"',
-    transferFrom2025: 'Transfer from 2025',
-    other:            'Other',
-    paidInvoices:     'Senkardes PAID INVOICES',
-    exchangeDiff:     'Exchange difference',
-    cashFlowTransfer: 'SenFood Cash flow for transfer',
-    spedision:        'SPEDISION MKD & SKYSPED',
-    bankCharges:      'BANK CHARGES',
-    custom:           'CUSTOM',
-    variousCosts:     'Various costs',
-    incomeDDV:        'INCOME DDV',
-    expensesDDV:      'EXPENSES DDV',
-  }
+  rowLabels: {"invoiceAldaco":"AMOUNT OF INVOICE \"ALDACO\"","invoiceImperijal":"AMOUNT OF INVOICE \"IMPERIJAL TABAKO\"","transferFrom2025":"Transfer from 2025","other":"Other","paidInvoices":"Senkardes PAID INVOICES","exchangeDiff":"Exchange difference","cashFlowTransfer":"SenFood Cash flow for transfer","spedision":"SPEDISION MKD & SKYSPED","bankCharges":"BANK CHARGES","custom":"CUSTOM","variousCosts":"Various costs","incomeDDV":"INCOME DDV","expensesDDV":"EXPENSES DDV"}
 };
-
-// ============================================================
-// INPORT - Детали за увоз / фактури
-// ============================================================
-const INPORT_DATA = [
-  // January
-  { month: "January", invoice: "SKK2026000000002", date: "22.01.2026", client: "Aldaco", invNo: "00376-26",
-    amountInv: 61690.20, transport: 1100, spedision: 136, ddv: 3585, custom: 8928, banka: 38, various: 0, skAmount: 79175, payMonth: 3, status: "paid" },
-  { month: "January", invoice: "SKK2026000000004", date: "23.01.2026", client: "Imperijal", invNo: "00377-26",
-    amountInv: 76359.30, transport: 1100, spedision: 134, ddv: 4434, custom: 11240, banka: 45, various: 0, skAmount: 97734, payMonth: 4, status: "paid" },
-  { month: "January", invoice: "SKK2026000000003", date: "23.01.2026", client: "Imperijal", invNo: "00378-26",
-    amountInv: 38580.00, transport: 1050, spedision: 119, ddv: 2277, custom: 5924, banka: 26, various: 0, skAmount: 50810, payMonth: 4, status: "paid" },
-  { month: "January", invoice: "SKK2026000000006", date: "30.01.2026", client: "Aldaco", invNo: "00379-26",
-    amountInv: 35022.40, transport: 1050, spedision: 120, ddv: 2072, custom: 5385, banka: 25, various: 0, skAmount: 45984, payMonth: 3, status: "paid" },
-  // February
-  { month: "February", invoice: "SKK2026000000007", date: "04.02.2026", client: "Aldaco", invNo: "00380-26",
-    amountInv: 40547.00, transport: 1050, spedision: 126, ddv: 2395, custom: 6214, banka: 27, various: 0, skAmount: 53389, payMonth: 3, status: "paid" },
-  { month: "February", invoice: "SKK2026000000014", date: "12.02.2026", client: "Aldaco", invNo: "00381-26",
-    amountInv: 39611.00, transport: 1050, spedision: 120, ddv: 2341, custom: 6084, banka: 24, various: 0, skAmount: 52127, payMonth: 3, status: "paid" },
-  { month: "February", invoice: "SKK2026000000015", date: "12.02.2026", client: "Aldaco", invNo: "00382-26",
-    amountInv: 51231.40, transport: 1100, spedision: 136, ddv: 2992, custom: 7409, banka: 24, various: 0, skAmount: 66315, payMonth: 3, status: "paid" },
-  { month: "February", invoice: "SKK2026000000019", date: "13.02.2026", client: "Aldaco", invNo: "00383-26",
-    amountInv: 33591.00, transport: 1050, spedision: 128, ddv: 1996, custom: 5206, banka: 24, various: 0, skAmount: 44230, payMonth: 3, status: "paid" },
-  { month: "February", invoice: "SKK2026000000029", date: "20.02.2026", client: "Imperijal", invNo: "00384-26",
-    amountInv: 35020.00, transport: 1050, spedision: 119, ddv: 2077, custom: 5399, banka: 25, various: 0, skAmount: 46065, payMonth: 5, status: "paid" },
-  // March
-  { month: "March", invoice: "SKK2026000000034", date: "27.02.2026", client: "Aldaco", invNo: "00386-26",
-    amountInv: 45245.00, transport: 1100, spedision: 128, ddv: 2659, custom: 6743, banka: 30, various: 0, skAmount: 59023, payMonth: 4, status: "paid" },
-  { month: "March", invoice: "SKK2026000000035", date: "03.02.2026", client: "Imperijal", invNo: "00387-26",
-    amountInv: 59036.20, transport: 1100, spedision: 119, ddv: 3459, custom: 8872, banka: 32, various: 0, skAmount: 75787, payMonth: 6, status: "paid" },
-  { month: "March", invoice: "SKK2026000000038", date: "06.03.2026", client: "Aldaco", invNo: "00388-26",
-    amountInv: 33140.00, transport: 1050, spedision: 119, ddv: 1972, custom: 5144, banka: 24, various: 0, skAmount: 43597, payMonth: 4, status: "paid" },
-  { month: "March", invoice: "SKK2026000000050", date: "19.03.2026", client: "Imperijal", invNo: "00389-26",
-    amountInv: 48420.00, transport: 1100, spedision: 136, ddv: 2846, custom: 7252, banka: 0, various: 0, skAmount: 62774, payMonth: 7, status: "paid" },
-  // April
-  { month: "April", invoice: "SKK2026000000069", date: "17.04.2026", client: "Aldaco", invNo: "00390-26",
-    amountInv: 35233.00, transport: 1050, spedision: 119, ddv: 2091, custom: 5441, banka: 25, various: 0, skAmount: 46324, payMonth: 6, status: "paid" },
-  { month: "April", invoice: "SKK2026000000070", date: "21.04.2026", client: "Aldaco", invNo: "00391-26",
-    amountInv: 34344.00, transport: 1050, spedision: 119, ddv: 2041, custom: 5321, banka: 0, various: 0, skAmount: 45198, payMonth: 6, status: "paid" },
-  { month: "April", invoice: "SKK2026000000073", date: "27.04.2026", client: "Imperijal", invNo: "00392-26",
-    amountInv: 46711.40, transport: 1200, spedision: 132, ddv: 2758, custom: 7110, banka: 0, various: 0, skAmount: 60614, payMonth: 7, status: "paid" },
-  // May
-  { month: "May", invoice: "SKK2026000000080", date: "04.05.2026", client: "Aldaco", invNo: "00394-26",
-    amountInv: 50751.40, transport: 1200, spedision: 136, ddv: 2977, custom: 7441, banka: 0, various: 0, skAmount: 65479, payMonth: 6, status: "paid" },
-  { month: "May", invoice: "SKK2026000000086", date: "12.05.2026", client: "Aldaco", invNo: "00395-26",
-    amountInv: 60495.00, transport: 1490, spedision: 136, ddv: 3559, custom: 8981, banka: 0, various: 0, skAmount: 78201, payMonth: 6, status: "paid" },
-  { month: "May", invoice: "SKK2026000000089", date: "13.05.2026", client: "Imperijal", invNo: "00396-26",
-    amountInv: 37760.00, transport: 1250, spedision: 110, ddv: 2242, custom: 5823, banka: 0, various: 0, skAmount: 49654, payMonth: 7, status: "paid" },
-  { month: "May", invoice: "SKK2026000000090", date: "15.05.2026", client: "Imperijal", invNo: "00397-26",
-    amountInv: 83906.00, transport: 1200, spedision: 136, ddv: 4892, custom: 12460, banka: 0, various: 0, skAmount: 106980, payMonth: 0, status: "unpaid" },
-  { month: "May", invoice: "SKK2026000000091", date: "18.05.2026", client: "Aldaco", invNo: "00398-26",
-    amountInv: 31563.20, transport: 1150, spedision: 119, ddv: 1886, custom: 4912, banka: 0, various: 0, skAmount: 41513, payMonth: 7, status: "paid" },
-  { month: "May", invoice: "SKK2026000000096", date: "27.05.2026", client: "Aldaco", invNo: "00399-26",
-    amountInv: 32714.40, transport: 1150, spedision: 119, ddv: 1953, custom: 5095, banka: 0, various: 0, skAmount: 43045, payMonth: 7, status: "paid" },
-  // June
-  { month: "June", invoice: "SKK2026000000106", date: "08.06.2026", client: "Aldaco", invNo: "00400-26",
-    amountInv: 60558.00, transport: 1200, spedision: 119, ddv: 3550, custom: 9048, banka: 0, various: 0, skAmount: 77930, payMonth: 7, status: "paid" },
-  { month: "June", invoice: "SKK2026000000113", date: "12.06.2026", client: "Imperijal", invNo: "00401-26",
-    amountInv: 42380.00, transport: 1300, spedision: 120, ddv: 2517, custom: 6521, banka: 0, various: 0, skAmount: 55719, payMonth: 0, status: "unpaid" },
-  { month: "June", invoice: "SKK2026000000116", date: "24.06.2026", client: "Aldaco", invNo: "00402-26",
-    amountInv: 34450.00, transport: 1150, spedision: 120, ddv: 2053, custom: 5354, banka: 0, various: 0, skAmount: 45328, payMonth: 8, status: "paid" },
-  { month: "June", invoice: "SKK2026000000117", date: "25.06.2026", client: "Aldaco", invNo: "00403-26",
-    amountInv: 47540.60, transport: 1200, spedision: 134, ddv: 2801, custom: 7130, banka: 0, various: 0, skAmount: 61494, payMonth: 8, status: "paid" },
-  { month: "June", invoice: "SKK2026000000118", date: "26.06.2026", client: "Imperijal", invNo: "00404-26",
-    amountInv: 100045.40, transport: 1200, spedision: 73, ddv: 5823, custom: 14894, banka: 0, various: 0, skAmount: 127187, payMonth: 0, status: "unpaid" },
-  // July
-  { month: "July", invoice: "SKK2026000000121", date: "01.07.2026", client: "Imperijal", invNo: "00405-26",
-    amountInv: 79482.00, transport: 1200, spedision: 197, ddv: 4632, custom: 11799, banka: 0, various: 0, skAmount: 102108, payMonth: 0, status: "unpaid" },
-  { month: "July", invoice: "SKK2026000000133", date: "30.07.2026", client: "Imperijal", invNo: "00407-26",
-    amountInv: 32650.90, transport: 1150, spedision: 110, ddv: 1945, custom: 5044, banka: 0, various: 0, skAmount: 42941, payMonth: 0, status: "unpaid" },
-];
-
-// ============================================================
-// КАРТИЦА АЛДАКО - Финансиска картица
-// ============================================================
-const CARD_ALDACO = [
-  { date: "23.01.2026", desc: "Ф-ра 00376-26", dolgува: 4877226, pobaruva: 0, valuta: "08.03.2026", status: "paid" },
-  { date: "23.01.2026", desc: "Аванс по Ф-ра 00376-26", dolgува: 0, pobaruva: 787299, valuta: "", status: "" },
-  { date: "23.01.2026", desc: "Уплата по Ф-ра 00376-26", dolgува: 0, pobaruva: 4089927, valuta: "", status: "" },
-  { date: "30.01.2026", desc: "Ф-ра 00379-26", dolgува: 2834920, pobaruva: 0, valuta: "16.03.2026", status: "paid" },
-  { date: "30.01.2026", desc: "Аванс по Ф-ра 00379-26", dolgува: 0, pobaruva: 476019, valuta: "", status: "" },
-  { date: "30.01.2026", desc: "Уплата по Ф-ра 00379-26", dolgува: 0, pobaruva: 2358901, valuta: "", status: "" },
-  { date: "04.02.2026", desc: "Ф-ра 00380-26", dolgува: 3291446, pobaruva: 0, valuta: "22.03.2026", status: "paid" },
-  { date: "04.02.2026", desc: "Аванс по Ф-ра 00380-26", dolgува: 0, pobaruva: 546648, valuta: "", status: "" },
-  { date: "04.02.2026", desc: "Уплата по Ф-ра 00380-26", dolgува: 0, pobaruva: 2744798, valuta: "", status: "" },
-  { date: "12.02.2026", desc: "Ф-ра 00381-26", dolgува: 3213637, pobaruva: 0, valuta: "29.03.2026", status: "paid" },
-  { date: "12.02.2026", desc: "Аванс по Ф-ра 00381-26", dolgува: 0, pobaruva: 534918, valuta: "", status: "" },
-  { date: "12.02.2026", desc: "Уплата по Ф-ра 00381-26", dolgува: 0, pobaruva: 2678719, valuta: "", status: "" },
-  { date: "12.02.2026", desc: "Ф-ра 00382-26", dolgува: 4088350, pobaruva: 0, valuta: "29.03.2026", status: "paid" },
-  { date: "12.02.2026", desc: "Аванс по Ф-ра 00382-26", dolgува: 0, pobaruva: 657420, valuta: "", status: "" },
-  { date: "12.02.2026", desc: "Уплата по Ф-ра 00382-26", dolgува: 0, pobaruva: 3430930, valuta: "", status: "" },
-  { date: "13.02.2026", desc: "Ф-ра 00383-26", dolgува: 2726797, pobaruva: 0, valuta: "30.03.2026", status: "paid" },
-  { date: "13.02.2026", desc: "Аванс по Ф-ра 00383-26", dolgува: 0, pobaruva: 459674, valuta: "", status: "" },
-  { date: "13.02.2026", desc: "Уплата по Ф-ра 00383-26", dolgува: 0, pobaruva: 2267123, valuta: "", status: "" },
-  { date: "27.02.2026", desc: "Ф-ра 00386-26", dolgува: 3641712, pobaruva: 0, valuta: "13.04.2026", status: "paid" },
-  { date: "27.02.2026", desc: "Аванс по Ф-ра 00386-26", dolgува: 0, pobaruva: 594996, valuta: "", status: "" },
-  { date: "27.02.2026", desc: "Уплата по Ф-ра 00386-26", dolgува: 0, pobaruva: 3046716, valuta: "", status: "" },
-  { date: "06.03.2026", desc: "Ф-ра 00388-26", dolgува: 2689968, pobaruva: 0, valuta: "20.04.2026", status: "paid" },
-  { date: "06.03.2026", desc: "Аванс по Ф-ра 00388-26", dolgува: 0, pobaruva: 454417, valuta: "", status: "" },
-  { date: "06.03.2026", desc: "Уплата по Ф-ра 00388-26", dolgува: 0, pobaruva: 2235551, valuta: "", status: "" },
-  { date: "17.04.2026", desc: "Ф-ра 00390-26", dolgува: 2858202, pobaruva: 0, valuta: "01.06.2026", status: "paid" },
-  { date: "17.04.2026", desc: "Аванс по Ф-ра 00390-26", dolgува: 0, pobaruva: 480007, valuta: "", status: "" },
-  { date: "17.04.2026", desc: "Уплата по Ф-ра 00390-26", dolgува: 0, pobaruva: 2378195, valuta: "", status: "" },
-  { date: "21.04.2026", desc: "Ф-ра 00391-26", dolgува: 2788733, pobaruva: 0, valuta: "05.06.2026", status: "paid" },
-  { date: "21.04.2026", desc: "Аванс по Ф-ра 00391-26", dolgува: 0, pobaruva: 469559, valuta: "", status: "" },
-  { date: "21.04.2026", desc: "Уплата по Ф-ра 00391-26", dolgува: 0, pobaruva: 2319174, valuta: "", status: "" },
-  { date: "04.05.2026", desc: "Ф-ра 00394-26", dolgува: 4040082, pobaruva: 0, valuta: "18.06.2026", status: "paid" },
-  { date: "04.05.2026", desc: "Аванс по Ф-ра 00394-26", dolgува: 0, pobaruva: 658448, valuta: "", status: "" },
-  { date: "04.05.2026", desc: "Уплата по Ф-ра 00394-26", dolgува: 0, pobaruva: 3381634, valuta: "", status: "" },
-  { date: "12.05.2026", desc: "Ф-ра 00395-26", dolgува: 4825034, pobaruva: 0, valuta: "26.06.2026", status: "paid" },
-  { date: "12.05.2026", desc: "Аванс по Ф-ра 00395-26", dolgува: 0, pobaruva: 788841, valuta: "", status: "" },
-  { date: "12.05.2026", desc: "Уплата по Ф-ра 00395-26", dolgува: 0, pobaruva: 4036193, valuta: "", status: "" },
-  { date: "18.05.2026", desc: "Ф-ра 00398-26", dolgува: 2561362, pobaruva: 0, valuta: "02.07.2026", status: "paid" },
-  { date: "18.05.2026", desc: "Аванс по Ф-ра 00398-26", dolguva: 0, pobaruva: 434873, valuta: "", status: "" },
-  { date: "18.05.2026", desc: "Уплата по Ф-ра 00398-26", dolgува: 0, pobaruva: 2126489, valuta: "", status: "" },
-  { date: "27.05.2026", desc: "Ф-ра 00399-26", dolgува: 2655913, pobaruva: 0, valuta: "11.07.2026", status: "paid" },
-  { date: "27.05.2026", desc: "Аванс по Ф-ра 00399-26", dolgува: 0, pobaruva: 450253, valuta: "", status: "" },
-  { date: "27.05.2026", desc: "Уплата по Ф-ра 00399-26", dolgува: 0, pobaruva: 2205660, valuta: "", status: "" },
-  { date: "08.06.2026", desc: "Ф-ра 00400-26", dolgува: 4808299, pobaruva: 0, valuta: "23.07.2026", status: "paid" },
-  { date: "08.06.2026", desc: "Аванс по Ф-ра 00400-26", dolgува: 0, pobaruva: 792422, valuta: "", status: "" },
-  { date: "08.06.2026", desc: "Уплата по Ф-ра 00400-26", dolgува: 0, pobaruva: 4015877, valuta: "", status: "" },
-  { date: "24.06.2026", desc: "Ф-ра 00402-26", dolgува: 2796720, pobaruva: 0, valuta: "08.08.2026", status: "paid" },
-  { date: "24.06.2026", desc: "Аванс по Ф-ра 00402-26", dolgува: 0, pobaruva: 472305, valuta: "", status: "" },
-  { date: "24.06.2026", desc: "Уплата по Ф-ра 00402-26", dolgува: 0, pobaruva: 2324415, valuta: "", status: "" },
-  { date: "25.06.2026", desc: "Ф-ра 00403-26", dolgува: 3794164, pobaruva: 0, valuta: "09.08.2026", status: "paid" },
-  { date: "25.06.2026", desc: "Аванс по Ф-ра 00403-26", dolgува: 0, pobaruva: 628386, valuta: "", status: "" },
-  { date: "25.06.2026", desc: "Уплата по Ф-ра 00403-26", dolgува: 0, pobaruva: 3165778, valuta: "", status: "" },
-];
-
-// ============================================================
-// КАРТИЦА ИМПЕРИЈАЛ - Финансиска картица
-// (Скратена верзија - додајте редови по потреба)
-// ============================================================
-const CARD_IMPERIJAL = [
-  { date: "23.01.2026", desc: "Ф-ра 00377-26", dolgува: 6020439, pobaruva: 0, valuta: "09.03.2026", status: "paid" },
-  { date: "23.01.2026", desc: "Аванс по Ф-ра 00377-26", dolgува: 0, pobaruva: 981538, valuta: "", status: "" },
-  { date: "23.01.2026", desc: "Ф-ра 00378-26", dolgува: 3129912, pobaruva: 0, valuta: "09.03.2026", status: "paid" },
-  { date: "23.01.2026", desc: "Аванс по Ф-ра 00378-26", dolgува: 0, pobaruva: 521125, valuta: "", status: "" },
-  { date: "20.02.2026", desc: "Ф-ра 00384-26", dolgува: 2842230, pobaruva: 0, valuta: "06.04.2026", status: "paid" },
-  { date: "20.02.2026", desc: "Аванс по Ф-ра 00384-26", dolgува: 0, pobaruva: 476552, valuta: "", status: "" },
-  { date: "03.03.2026", desc: "Ф-ра 00387-26", dolgува: 4676081, pobaruva: 0, valuta: "16.04.2026", status: "paid" },
-  { date: "03.03.2026", desc: "Аванс по Ф-ра 00387-26", dolgува: 0, pobaruva: 775322, valuta: "", status: "" },
-  { date: "19.03.2026", desc: "Ф-ра 00389-26", dolgува: 3873192, pobaruva: 0, valuta: "03.05.2026", status: "paid" },
-  { date: "19.03.2026", desc: "Аванс по Ф-ра 00389-26", dolgува: 0, pobaruva: 644582, valuta: "", status: "" },
-  { date: "27.04.2026", desc: "Ф-ра 00392-26", dolgува: 3739917, pobaruva: 0, valuta: "11.06.2026", status: "paid" },
-  { date: "27.04.2026", desc: "Аванс по Ф-ра 00392-26", dolgува: 0, pobaruva: 624390, valuta: "", status: "" },
-  { date: "13.05.2026", desc: "Ф-ра 00396-26", dolgува: 3063680, pobaruva: 0, valuta: "27.06.2026", status: "paid" },
-  { date: "13.05.2026", desc: "Аванс по Ф-ра 00396-26", dolgува: 0, pobaruva: 512778, valuta: "", status: "" },
-  { date: "15.05.2026", desc: "Ф-ра 00397-26", dolgува: 6600718, pobaruva: 0, valuta: "02.07.2026", status: "unpaid" },
-  { date: "15.05.2026", desc: "Аванс по Ф-ра 00397-26", dolgува: 0, pobaruva: 1084865, valuta: "", status: "" },
-  { date: "12.06.2026", desc: "Ф-ра 00401-26", dolgува: 3437880, pobaruva: 0, valuta: "30.07.2026", status: "unpaid" },
-  { date: "12.06.2026", desc: "Аванс по Ф-ра 00401-26", dolgува: 0, pobaruva: 572585, valuta: "", status: "" },
-  { date: "26.06.2026", desc: "Ф-ра 00404-26", dolgува: 7847449, pobaruva: 0, valuta: "10.08.2026", status: "unpaid" },
-  { date: "26.06.2026", desc: "Аванс по Ф-ра 00404-26", dolgува: 0, pobaruva: 1291564, valuta: "", status: "" },
-  { date: "01.07.2026", desc: "Ф-ра 00405-26", dolgува: 6300067, pobaruva: 0, valuta: "16.08.2026", status: "unpaid" },
-  { date: "01.07.2026", desc: "Аванс по Ф-ра 00405-26", dolgува: 0, pobaruva: 1032084, valuta: "", status: "" },
-  { date: "30.07.2026", desc: "Ф-ра 00407-26", dolgува: 2649465, pobaruva: 0, valuta: "", status: "unpaid" },
-  { date: "30.07.2026", desc: "Аванс по Ф-ра 00407-26", dolgува: 0, pobaruva: 446614, valuta: "", status: "" },
-];
-
-// ============================================================
-// USERS - Корисници за логирање
-// ============================================================
+const INPORT_DATA = [{"month":"January","invoice":"SKK2026000000002","date":"22.01.2026","client":"Aldaco","invNo":"00376-26","amountInv":61690.2,"transport":1100,"spedision":136,"ddv":3585,"custom":8928,"banka":38,"various":0,"skAmount":79175,"payMonth":3,"status":"paid"},{"month":"January","invoice":"SKK2026000000004","date":"23.01.2026","client":"Imperijal","invNo":"00377-26","amountInv":76359.3,"transport":1100,"spedision":134,"ddv":4434,"custom":11240,"banka":45,"various":0,"skAmount":97734,"payMonth":4,"status":"paid"},{"month":"January","invoice":"SKK2026000000003","date":"23.01.2026","client":"Imperijal","invNo":"00378-26","amountInv":38580,"transport":1050,"spedision":119,"ddv":2277,"custom":5924,"banka":26,"various":0,"skAmount":50810,"payMonth":4,"status":"paid"},{"month":"January","invoice":"SKK2026000000006","date":"30.01.2026","client":"Aldaco","invNo":"00379-26","amountInv":35022.4,"transport":1050,"spedision":120,"ddv":2072,"custom":5385,"banka":25,"various":0,"skAmount":45984,"payMonth":3,"status":"paid"},{"month":"February","invoice":"SKK2026000000007","date":"04.02.2026","client":"Aldaco","invNo":"00380-26","amountInv":40547,"transport":1050,"spedision":126,"ddv":2395,"custom":6214,"banka":27,"various":0,"skAmount":53389,"payMonth":3,"status":"paid"},{"month":"February","invoice":"SKK2026000000014","date":"12.02.2026","client":"Aldaco","invNo":"00381-26","amountInv":39611,"transport":1050,"spedision":120,"ddv":2341,"custom":6084,"banka":24,"various":0,"skAmount":52127,"payMonth":3,"status":"paid"},{"month":"February","invoice":"SKK2026000000015","date":"12.02.2026","client":"Aldaco","invNo":"00382-26","amountInv":51231.4,"transport":1100,"spedision":136,"ddv":2992,"custom":7409,"banka":24,"various":0,"skAmount":66315,"payMonth":3,"status":"paid"},{"month":"February","invoice":"SKK2026000000019","date":"13.02.2026","client":"Aldaco","invNo":"00383-26","amountInv":33591,"transport":1050,"spedision":128,"ddv":1996,"custom":5206,"banka":24,"various":0,"skAmount":44230,"payMonth":3,"status":"paid"},{"month":"February","invoice":"SKK2026000000029","date":"20.02.2026","client":"Imperijal","invNo":"00384-26","amountInv":35020,"transport":1050,"spedision":119,"ddv":2077,"custom":5399,"banka":25,"various":0,"skAmount":46065,"payMonth":5,"status":"paid"},{"month":"March","invoice":"SKK2026000000034","date":"27.02.2026","client":"Aldaco","invNo":"00386-26","amountInv":45245,"transport":1100,"spedision":128,"ddv":2659,"custom":6743,"banka":30,"various":0,"skAmount":59023,"payMonth":4,"status":"paid"},{"month":"March","invoice":"SKK2026000000035","date":"03.02.2026","client":"Imperijal","invNo":"00387-26","amountInv":59036.2,"transport":1100,"spedision":119,"ddv":3459,"custom":8872,"banka":32,"various":0,"skAmount":75787,"payMonth":6,"status":"paid"},{"month":"March","invoice":"SKK2026000000038","date":"06.03.2026","client":"Aldaco","invNo":"00388-26","amountInv":33140,"transport":1050,"spedision":119,"ddv":1972,"custom":5144,"banka":24,"various":0,"skAmount":43597,"payMonth":4,"status":"paid"},{"month":"March","invoice":"SKK2026000000050","date":"19.03.2026","client":"Imperijal","invNo":"00389-26","amountInv":48420,"transport":1100,"spedision":136,"ddv":2846,"custom":7252,"banka":0,"various":0,"skAmount":62774,"payMonth":7,"status":"paid"},{"month":"April","invoice":"SKK2026000000069","date":"17.04.2026","client":"Aldaco","invNo":"00390-26","amountInv":35233,"transport":1050,"spedision":119,"ddv":2091,"custom":5441,"banka":25,"various":0,"skAmount":46324,"payMonth":6,"status":"paid"},{"month":"April","invoice":"SKK2026000000070","date":"21.04.2026","client":"Aldaco","invNo":"00391-26","amountInv":34344,"transport":1050,"spedision":119,"ddv":2041,"custom":5321,"banka":0,"various":0,"skAmount":45198,"payMonth":6,"status":"paid"},{"month":"April","invoice":"SKK2026000000073","date":"27.04.2026","client":"Imperijal","invNo":"00392-26","amountInv":46711.4,"transport":1200,"spedision":132,"ddv":2758,"custom":7110,"banka":0,"various":0,"skAmount":60614,"payMonth":7,"status":"paid"},{"month":"May","invoice":"SKK2026000000080","date":"04.05.2026","client":"Aldaco","invNo":"00394-26","amountInv":50751.4,"transport":1200,"spedision":136,"ddv":2977,"custom":7441,"banka":0,"various":0,"skAmount":65479,"payMonth":6,"status":"paid"},{"month":"May","invoice":"SKK2026000000086","date":"12.05.2026","client":"Aldaco","invNo":"00395-26","amountInv":60495,"transport":1490,"spedision":136,"ddv":3559,"custom":8981,"banka":0,"various":0,"skAmount":78201,"payMonth":6,"status":"paid"},{"month":"May","invoice":"SKK2026000000089","date":"13.05.2026","client":"Imperijal","invNo":"00396-26","amountInv":37760,"transport":1250,"spedision":110,"ddv":2242,"custom":5823,"banka":0,"various":0,"skAmount":49654,"payMonth":7,"status":"paid"},{"month":"May","invoice":"SKK2026000000090","date":"15.05.2026","client":"Imperijal","invNo":"00397-26","amountInv":83906,"transport":1200,"spedision":136,"ddv":4892,"custom":12460,"banka":0,"various":0,"skAmount":106980,"payMonth":0,"status":"paid"},{"month":"May","invoice":"SKK2026000000091","date":"18.05.2026","client":"Aldaco","invNo":"00398-26","amountInv":31563.2,"transport":1150,"spedision":119,"ddv":1886,"custom":4912,"banka":0,"various":0,"skAmount":41513,"payMonth":7,"status":"paid"},{"month":"May","invoice":"SKK2026000000096","date":"27.05.2026","client":"Aldaco","invNo":"00399-26","amountInv":32714.4,"transport":1150,"spedision":119,"ddv":1953,"custom":5095,"banka":0,"various":0,"skAmount":43045,"payMonth":7,"status":"paid"},{"month":"June","invoice":"SKK2026000000106","date":"08.06.2026","client":"Aldaco","invNo":"00400-26","amountInv":60558,"transport":1200,"spedision":119,"ddv":3550,"custom":9048,"banka":0,"various":0,"skAmount":77930,"payMonth":7,"status":"paid"},{"month":"June","invoice":"SKK2026000000113","date":"12.06.2026","client":"Imperijal","invNo":"00401-26","amountInv":42380,"transport":1300,"spedision":120,"ddv":2517,"custom":6521,"banka":0,"various":0,"skAmount":55719,"payMonth":0,"status":"unpaid"},{"month":"June","invoice":"SKK2026000000116","date":"24.06.2026","client":"Aldaco","invNo":"00402-26","amountInv":34450,"transport":1150,"spedision":120,"ddv":2053,"custom":5354,"banka":0,"various":0,"skAmount":45328,"payMonth":8,"status":"paid"},{"month":"June","invoice":"SKK2026000000117","date":"25.06.2026","client":"Aldaco","invNo":"00403-26","amountInv":47540.6,"transport":1200,"spedision":134,"ddv":2801,"custom":7130,"banka":0,"various":0,"skAmount":61494,"payMonth":8,"status":"paid"},{"month":"June","invoice":"SKK2026000000118","date":"26.06.2026","client":"Imperijal","invNo":"00404-26","amountInv":100045.4,"transport":1200,"spedision":73,"ddv":5823,"custom":14894,"banka":0,"various":0,"skAmount":127187,"payMonth":0,"status":"unpaid"},{"month":"July","invoice":"SKK2026000000121","date":"01.07.2026","client":"Imperijal","invNo":"00405-26","amountInv":79482,"transport":1200,"spedision":197,"ddv":4632,"custom":11799,"banka":0,"various":0,"skAmount":102108,"payMonth":0,"status":"unpaid"},{"month":"July","invoice":"SKK2026000000133","date":"30.07.2026","client":"Imperijal","invNo":"00407-26","amountInv":32650.9,"transport":1150,"spedision":110,"ddv":1945,"custom":5044,"banka":0,"various":0,"skAmount":42941,"payMonth":0,"status":"unpaid"}];
+const CARD_ALDACO = [{"date":"23.01.2026","desc":"Ф-ра 00376-26","dolgува":4877226,"pobaruva":0,"valuta":"08.03.2026","status":"paid"},{"date":"23.01.2026","desc":"Аванс по Ф-ра 00376-26","dolgува":0,"pobaruva":787299,"valuta":"","status":""},{"date":"23.01.2026","desc":"Уплата по Ф-ра 00376-26","dolgува":0,"pobaruva":4089927,"valuta":"","status":""},{"date":"30.01.2026","desc":"Ф-ра 00379-26","dolgува":2834920,"pobaruva":0,"valuta":"16.03.2026","status":"paid"},{"date":"30.01.2026","desc":"Аванс по Ф-ра 00379-26","dolgува":0,"pobaruva":476019,"valuta":"","status":""},{"date":"30.01.2026","desc":"Уплата по Ф-ра 00379-26","dolgува":0,"pobaruva":2358901,"valuta":"","status":""},{"date":"04.02.2026","desc":"Ф-ра 00380-26","dolgува":3291446,"pobaruva":0,"valuta":"22.03.2026","status":"paid"},{"date":"04.02.2026","desc":"Аванс по Ф-ра 00380-26","dolgува":0,"pobaruva":546648,"valuta":"","status":""},{"date":"04.02.2026","desc":"Уплата по Ф-ра 00380-26","dolgува":0,"pobaruva":2744798,"valuta":"","status":""},{"date":"12.02.2026","desc":"Ф-ра 00381-26","dolgува":3213637,"pobaruva":0,"valuta":"29.03.2026","status":"paid"},{"date":"12.02.2026","desc":"Аванс по Ф-ра 00381-26","dolgува":0,"pobaruva":534918,"valuta":"","status":""},{"date":"12.02.2026","desc":"Уплата по Ф-ра 00381-26","dolgува":0,"pobaruva":2678719,"valuta":"","status":""},{"date":"12.02.2026","desc":"Ф-ра 00382-26","dolgува":4088350,"pobaruva":0,"valuta":"29.03.2026","status":"paid"},{"date":"12.02.2026","desc":"Аванс по Ф-ра 00382-26","dolgува":0,"pobaruva":657420,"valuta":"","status":""},{"date":"12.02.2026","desc":"Уплата по Ф-ра 00382-26","dolgува":0,"pobaruva":3430930,"valuta":"","status":""},{"date":"13.02.2026","desc":"Ф-ра 00383-26","dolgува":2726797,"pobaruva":0,"valuta":"30.03.2026","status":"paid"},{"date":"13.02.2026","desc":"Аванс по Ф-ра 00383-26","dolgува":0,"pobaruva":459674,"valuta":"","status":""},{"date":"13.02.2026","desc":"Уплата по Ф-ра 00383-26","dolgува":0,"pobaruva":2267123,"valuta":"","status":""},{"date":"27.02.2026","desc":"Ф-ра 00386-26","dolgува":3641712,"pobaruva":0,"valuta":"13.04.2026","status":"paid"},{"date":"27.02.2026","desc":"Аванс по Ф-ра 00386-26","dolgува":0,"pobaruva":594996,"valuta":"","status":""},{"date":"27.02.2026","desc":"Уплата по Ф-ра 00386-26","dolgува":0,"pobaruva":3046716,"valuta":"","status":""},{"date":"06.03.2026","desc":"Ф-ра 00388-26","dolgува":2689968,"pobaruva":0,"valuta":"20.04.2026","status":"paid"},{"date":"06.03.2026","desc":"Аванс по Ф-ра 00388-26","dolgува":0,"pobaruva":454417,"valuta":"","status":""},{"date":"06.03.2026","desc":"Уплата по Ф-ра 00388-26","dolgува":0,"pobaruva":2235551,"valuta":"","status":""},{"date":"17.04.2026","desc":"Ф-ра 00390-26","dolgува":2858202,"pobaruva":0,"valuta":"01.06.2026","status":"paid"},{"date":"17.04.2026","desc":"Аванс по Ф-ра 00390-26","dolgува":0,"pobaruva":480007,"valuta":"","status":""},{"date":"17.04.2026","desc":"Уплата по Ф-ра 00390-26","dolgува":0,"pobaruva":2378195,"valuta":"","status":""},{"date":"21.04.2026","desc":"Ф-ра 00391-26","dolgува":2788733,"pobaruva":0,"valuta":"05.06.2026","status":"paid"},{"date":"21.04.2026","desc":"Аванс по Ф-ра 00391-26","dolgува":0,"pobaruva":469559,"valuta":"","status":""},{"date":"21.04.2026","desc":"Уплата по Ф-ра 00391-26","dolgува":0,"pobaruva":2319174,"valuta":"","status":""},{"date":"04.05.2026","desc":"Ф-ра 00394-26","dolgува":4040082,"pobaruva":0,"valuta":"18.06.2026","status":"paid"},{"date":"04.05.2026","desc":"Аванс по Ф-ра 00394-26","dolgува":0,"pobaruva":658448,"valuta":"","status":""},{"date":"04.05.2026","desc":"Уплата по Ф-ра 00394-26","dolgува":0,"pobaruva":3381634,"valuta":"","status":""},{"date":"12.05.2026","desc":"Ф-ра 00395-26","dolgува":4825034,"pobaruva":0,"valuta":"26.06.2026","status":"paid"},{"date":"12.05.2026","desc":"Аванс по Ф-ра 00395-26","dolgува":0,"pobaruva":788841,"valuta":"","status":""},{"date":"12.05.2026","desc":"Уплата по Ф-ра 00395-26","dolgува":0,"pobaruva":4036193,"valuta":"","status":""},{"date":"18.05.2026","desc":"Ф-ра 00398-26","dolgува":2561362,"pobaruva":0,"valuta":"02.07.2026","status":"paid"},{"date":"18.05.2026","desc":"Аванс по Ф-ра 00398-26","dolgува":0,"pobaruva":434873,"valuta":"","status":""},{"date":"18.05.2026","desc":"Уплата по Ф-ра 00398-26","dolgува":0,"pobaruva":2126489,"valuta":"","status":""},{"date":"27.05.2026","desc":"Ф-ра 00399-26","dolgува":2655913,"pobaruva":0,"valuta":"11.07.2026","status":"paid"},{"date":"27.05.2026","desc":"Аванс по Ф-ра 00399-26","dolgува":0,"pobaruva":450253,"valuta":"","status":""},{"date":"27.05.2026","desc":"Уплата по Ф-ра 00399-26","dolgува":0,"pobaruva":2205660,"valuta":"","status":""},{"date":"08.06.2026","desc":"Ф-ра 00400-26","dolgува":4808299,"pobaruva":0,"valuta":"23.07.2026","status":"paid"},{"date":"08.06.2026","desc":"Аванс по Ф-ра 00400-26","dolgува":0,"pobaruva":792422,"valuta":"","status":""},{"date":"08.06.2026","desc":"Уплата по Ф-ра 00400-26","dolgува":0,"pobaruva":4015877,"valuta":"","status":""},{"date":"24.06.2026","desc":"Ф-ра 00402-26","dolgува":2796720,"pobaruva":0,"valuta":"08.08.2026","status":"paid"},{"date":"24.06.2026","desc":"Аванс по Ф-ра 00402-26","dolgува":0,"pobaruva":472305,"valuta":"","status":""},{"date":"24.06.2026","desc":"Уплата по Ф-ра 00402-26","dolgува":0,"pobaruva":2324415,"valuta":"","status":""},{"date":"25.06.2026","desc":"Ф-ра 00403-26","dolgува":3794164,"pobaruva":0,"valuta":"09.08.2026","status":"paid"},{"date":"25.06.2026","desc":"Аванс по Ф-ра 00403-26","dolgува":0,"pobaruva":628386,"valuta":"","status":""},{"date":"25.06.2026","desc":"Уплата по Ф-ра 00403-26","dolgува":0,"pobaruva":3165778,"valuta":"","status":""}];
+const CARD_IMPERIJAL = [{"date":"23.01.2026","desc":"Ф-ра 00377-26","dolgува":6020439,"pobaruva":0,"valuta":"09.03.2026","status":"paid"},{"date":"23.01.2026","desc":"Аванс по Ф-ра 00377-26","dolgува":0,"pobaruva":981538,"valuta":"","status":""},{"date":"23.01.2026","desc":"Ф-ра 00378-26","dolgува":3129912,"pobaruva":0,"valuta":"09.03.2026","status":"paid"},{"date":"23.01.2026","desc":"Аванс по Ф-ра 00378-26","dolgува":0,"pobaruva":521125,"valuta":"","status":""},{"date":"20.02.2026","desc":"Ф-ра 00384-26","dolgува":2842230,"pobaruva":0,"valuta":"06.04.2026","status":"paid"},{"date":"20.02.2026","desc":"Аванс по Ф-ра 00384-26","dolgува":0,"pobaruva":476552,"valuta":"","status":""},{"date":"03.03.2026","desc":"Ф-ра 00387-26","dolgува":4676081,"pobaruva":0,"valuta":"16.04.2026","status":"paid"},{"date":"03.03.2026","desc":"Аванс по Ф-ра 00387-26","dolgува":0,"pobaruva":775322,"valuta":"","status":""},{"date":"19.03.2026","desc":"Ф-ра 00389-26","dolgува":3873192,"pobaruva":0,"valuta":"03.05.2026","status":"paid"},{"date":"19.03.2026","desc":"Аванс по Ф-ра 00389-26","dolgува":0,"pobaruva":644582,"valuta":"","status":""},{"date":"27.04.2026","desc":"Ф-ра 00392-26","dolgува":3739917,"pobaruva":0,"valuta":"11.06.2026","status":"paid"},{"date":"27.04.2026","desc":"Аванс по Ф-ра 00392-26","dolgува":0,"pobaruva":624390,"valuta":"","status":""},{"date":"13.05.2026","desc":"Ф-ра 00396-26","dolgува":3063680,"pobaruva":0,"valuta":"27.06.2026","status":"paid"},{"date":"13.05.2026","desc":"Аванс по Ф-ра 00396-26","dolgува":0,"pobaruva":512778,"valuta":"","status":""},{"date":"15.05.2026","desc":"Ф-ра 00397-26","dolgува":6600718,"pobaruva":0,"valuta":"02.07.2026","status":"paid"},{"date":"15.05.2026","desc":"Аванс по Ф-ра 00397-26","dolgува":0,"pobaruva":1084865,"valuta":"","status":""},{"date":"12.06.2026","desc":"Ф-ра 00401-26","dolgува":3437880,"pobaruva":0,"valuta":"30.07.2026","status":"unpaid"},{"date":"12.06.2026","desc":"Аванс по Ф-ра 00401-26","dolgува":0,"pobaruva":572585,"valuta":"","status":""},{"date":"26.06.2026","desc":"Ф-ра 00404-26","dolgува":7847449,"pobaruva":0,"valuta":"10.08.2026","status":"unpaid"},{"date":"26.06.2026","desc":"Аванс по Ф-ра 00404-26","dolgува":0,"pobaruva":1291564,"valuta":"","status":""},{"date":"01.07.2026","desc":"Ф-ра 00405-26","dolgува":6300067,"pobaruva":0,"valuta":"16.08.2026","status":"unpaid"},{"date":"01.07.2026","desc":"Аванс по Ф-ра 00405-26","dolgува":0,"pobaruva":1032084,"valuta":"","status":""},{"date":"30.07.2026","desc":"Ф-ра 00407-26","dolgува":2649465,"pobaruva":0,"valuta":"","status":"unpaid"},{"date":"30.07.2026","desc":"Аванс по Ф-ра 00407-26","dolgува":0,"pobaruva":446614,"valuta":"","status":""},{"date":"18.08.2026","desc":"Уплата по Ф-ра 00397-26","dolgува":0,"pobaruva":1000000,"valuta":"","status":""}];
 const USERS = {
-  admin:   { password: "senfood2026", role: "Admin",   name: "Ersin" },
+  admin:   { password: "senfood2026", role: "Admin", name: "Ersin" },
   manager: { password: "manager2026", role: "Manager", name: "Andrijana" },
 };
