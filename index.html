@@ -504,7 +504,7 @@ async function saveChanges(){
   try {
     // Save data.js
     const getRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE}`,
-      {headers:{'Authorization':`token ${token}`}});
+      {headers:{'Authorization':`token ${token}`, 'Accept':'application/vnd.github.v3+json'}});
     if(!getRes.ok) throw new Error('Не можам да пристапам до GitHub');
     const fileInfo = await getRes.json();
 
