@@ -1,5 +1,5 @@
 // DATA.JS - SenFood Skopje Cash Flow 2026
-// Последна промена: 8/18/2026, 1:09:07 PM од Ersin
+// Последна промена: 8/18/2026, 1:11:34 PM од Ersin
 const EXCHANGE_RATE = 61.7;
 const CASH_DATA = {
   rate: EXCHANGE_RATE,
