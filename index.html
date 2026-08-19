@@ -3543,8 +3543,14 @@ async function saveChanges(){
     // Save data.js
     const getRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE}`,
       {headers:{'Authorization':`token ${token}`, 'Accept':'application/vnd.github.v3+json'}});
-    if(!getRes.ok) throw new Error('Не можам да пристапам до GitHub');
-    const fileInfo = await getRes.json();
+    if(!getRes.ok) throw new Error('Не можам да пристапам до GitHub. Одјави се и внеси го новиот токен.');
+    const text = await getRes.text();
+    let fileInfo;
+    try { fileInfo = JSON.parse(text); } catch(e) {
+      // Token is wrong - clear it and ask for new one
+      localStorage.removeItem('gh_token');
+      throw new Error('Погрешен токен! Одјави се и внеси го новиот: ghp_lgBM...');
+    }
 
     const newContent = generateDataJS();
     const putRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE}`, {
