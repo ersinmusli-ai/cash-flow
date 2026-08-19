@@ -3848,7 +3848,7 @@ function renderInport(){
     <div class="summary-card"><div class="label">Продажба</div><div class="value">${fmt(tS)}</div></div>
     <div class="summary-card"><div class="label">Профит</div><div class="value positive">${fmt(tS-tC)} / ${tC>0?((tS-tC)/tC*100).toFixed(1):'0'}%</div></div>`;
 
-  let h=`<thead><tr><th>Месец</th><th>Бр.</th><th>Датум</th><th>Клиент</th><th>Amount</th><th>Transport</th><th>DDV</th><th>Custom</th><th>Costs</th><th>SK Amt</th><th>Profit</th><th>%</th><th>St</th><th></th></tr></thead><tbody>`;
+  let h=`<thead><tr><th>Месец</th><th>Бр.</th><th>Датум</th><th>Клиент</th><th>Amount</th><th>Transport</th><th>Sped</th><th>DDV</th><th>Custom</th><th>Banka</th><th>Costs</th><th>SK Amt</th><th>Profit</th><th>%</th><th>St</th><th></th></tr></thead><tbody>`;
   ['January','February','March','April','May','June','July','August','September','October','November','December'].forEach(month=>{
     const invs=grouped[month];if(!invs)return;
     invs.forEach(i=>{
@@ -3856,11 +3856,11 @@ function renderInport(){
       const fr=i.amountInv+i.transport+i.spedision+i.ddv+i.custom+(i.banka||0);
       const p=i.skAmount-fr;const pc=fr>0?(p/fr*100):0;
       const st=i.status==='paid'?'<span class="status-paid">✅</span>':'<span class="status-unpaid">❌</span>';
-      h+=`<tr><td>${month.substr(0,3)}</td><td>${i.invNo}</td><td>${i.date}</td><td>${i.client}</td><td class="editable" onclick="editInportField(${idx},'amountInv',this)">${fmt(i.amountInv,2)}</td><td class="editable" onclick="editInportField(${idx},'transport',this)">${fmt(i.transport)}</td><td class="editable" onclick="editInportField(${idx},'ddv',this)">${fmt(i.ddv)}</td><td class="editable" onclick="editInportField(${idx},'custom',this)">${fmt(i.custom)}</td><td>${fmt(fr,2)}</td><td class="editable" onclick="editInportField(${idx},'skAmount',this)">${fmt(i.skAmount)}</td><td class="${fmtClass(p)}">${fmt(p,2)}</td><td>${pc.toFixed(1)}%</td><td style="cursor:pointer" onclick="editInportField(${idx},'status',this)">${st}</td><td><button class="del-btn" onclick="deleteInport(${idx})" title="Избриши">🗑️</button></td></tr>`;
+      h+=`<tr><td>${month.substr(0,3)}</td><td>${i.invNo}</td><td>${i.date}</td><td>${i.client}</td><td class="editable" onclick="editInportField(${idx},'amountInv',this)">${fmt(i.amountInv,2)}</td><td class="editable" onclick="editInportField(${idx},'transport',this)">${fmt(i.transport)}</td><td class="editable" onclick="editInportField(${idx},'spedision',this)">${fmt(i.spedision)}</td><td class="editable" onclick="editInportField(${idx},'ddv',this)">${fmt(i.ddv)}</td><td class="editable" onclick="editInportField(${idx},'custom',this)">${fmt(i.custom)}</td><td class="editable" onclick="editInportField(${idx},'banka',this)">${fmt(i.banka)}</td><td>${fmt(fr,2)}</td><td class="editable" onclick="editInportField(${idx},'skAmount',this)">${fmt(i.skAmount)}</td><td class="${fmtClass(p)}">${fmt(p,2)}</td><td>${pc.toFixed(1)}%</td><td style="cursor:pointer" onclick="editInportField(${idx},'status',this)">${st}</td><td><button class="del-btn" onclick="deleteInport(${idx})" title="Избриши">🗑️</button></td></tr>`;
     });
     const mT=invs.reduce((s,i)=>s+i.amountInv+i.transport+i.spedision+i.ddv+i.custom+(i.banka||0),0);
     const mS=invs.reduce((s,i)=>s+i.skAmount,0);
-    h+=`<tr class="subtotal-row"><td colspan="4"><strong>${month}</strong></td><td colspan="4"></td><td><strong>${fmt(mT,2)}</strong></td><td><strong>${fmt(mS)}</strong></td><td class="${fmtClass(mS-mT)}"><strong>${fmt(mS-mT,2)}</strong></td><td colspan="3"></td></tr>`;
+    h+=`<tr class="subtotal-row"><td colspan="4"><strong>${month}</strong></td><td colspan="6"></td><td><strong>${fmt(mT,2)}</strong></td><td><strong>${fmt(mS)}</strong></td><td class="${fmtClass(mS-mT)}"><strong>${fmt(mS-mT,2)}</strong></td><td colspan="3"></td></tr>`;
   });
   h+='</tbody>';
   document.getElementById('inportTable').innerHTML=h;
