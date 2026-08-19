@@ -1,9 +1,9 @@
 // DATA.JS - SenFood Skopje Cash Flow 2026
 // Генерирано автоматски од Excel: 0 фактури, 126 АЛДАКО записи, 186 ИМПЕРИЈАЛ записи
 
-const EXCHANGE_RATE = 61.7;
+var EXCHANGE_RATE = 61.7;
 
-const CASH_DATA = {
+var CASH_DATA = {
   rate: EXCHANGE_RATE,
   months: ["January","February","March","April","May","June","July","August","September","October","November","December"],
   rows: {
@@ -38,7 +38,7 @@ const CASH_DATA = {
   }
 };
 
-const INPORT_DATA = [
+var INPORT_DATA = [
   {
     "month": "January",
     "invoice": "SKK2026000000002 22.01.2026",
@@ -534,7 +534,7 @@ const INPORT_DATA = [
   }
 ];
 
-const CARD_ALDACO = [
+var CARD_ALDACO = [
   {
     "date": "17.01.2025",
     "desc": "Ф-ра 00323-25",
@@ -1545,7 +1545,7 @@ const CARD_ALDACO = [
   }
 ];
 
-const CARD_IMPERIJAL = [
+var CARD_IMPERIJAL = [
   {
     "date": "24.01.2025",
     "desc": "Ф-ра 00324-25",
@@ -3036,7 +3036,7 @@ const CARD_IMPERIJAL = [
   }
 ];
 
-const USERS = {
+var USERS = {
   admin:   { password: "senfood2026", role: "Admin",   name: "Ersin" },
   manager: { password: "manager2026", role: "Manager", name: "Andrijana" },
 };
