@@ -281,27 +281,21 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// Load data.js directly from GitHub raw content (bypasses Pages 404)
+// Load data.js from GitHub raw content
 const REPO_OWNER = 'ersinmusli-ai', REPO_NAME = 'cash-flow', DATA_FILE = 'data.js';
 
-async function loadData() {
-  try {
-    // Try loading from GitHub raw (always fresh, no 404)
-    const res = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${DATA_FILE}?t=${Date.now()}`);
-    if (!res.ok) throw new Error('Cannot load');
-    const code = await res.text();
-    eval(code);
-    console.log('✅ Data loaded from GitHub');
-    // Auto-login if session exists
-    const u = sessionStorage.getItem('user');
-    if (u && typeof USERS !== 'undefined' && USERS[u]) { currentUser = u; showApp(u); }
-  } catch(e) {
-    console.error('❌ Data load error:', e);
-    document.getElementById('loginError').textContent = 'Грешка: не може да се вчитаат податоци!';
-    document.getElementById('loginError').style.display = 'block';
-  }
-}
-loadData();
+var s = document.createElement('script');
+s.src = 'https://raw.githubusercontent.com/' + REPO_OWNER + '/' + REPO_NAME + '/main/' + DATA_FILE + '?t=' + Date.now();
+s.onload = function(){
+  console.log('✅ Data loaded');
+  var u = sessionStorage.getItem('user');
+  if (u && typeof USERS !== 'undefined' && USERS[u]) { currentUser = u; showApp(u); }
+};
+s.onerror = function(){
+  document.getElementById('loginError').textContent = 'Грешка: не може да се вчитаат податоци!';
+  document.getElementById('loginError').style.display = 'block';
+};
+document.head.appendChild(s);
 </script>
 <script>
 // ============================================================
@@ -543,22 +537,14 @@ async function saveChanges(){
   btn.disabled=false; btn.textContent='💾 Зачувај на GitHub';
 }
 
-// Load fresh data from GitHub (not Pages - bypasses cache)
+// Load fresh data from GitHub
 async function refreshData(){
-  const token = localStorage.getItem('gh_token');
-  if(!token){ showToast('Нема GitHub Token!','error'); return; }
   showToast('🔄 Вчитувам свежи податоци...','success');
-  try {
-    const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE}`,
-      {headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3.raw'}});
-    if(!res.ok) throw new Error('Грешка при вчитување');
-    const code = await res.text();
-    eval(code);
-    renderAll();
-    showToast('✅ Податоците се освежени!','success');
-  } catch(err) {
-    showToast('❌ '+err.message,'error');
-  }
+  var s = document.createElement('script');
+  s.src = 'https://raw.githubusercontent.com/' + REPO_OWNER + '/' + REPO_NAME + '/main/' + DATA_FILE + '?t=' + Date.now();
+  s.onload = function(){ renderAll(); showToast('✅ Податоците се освежени!','success'); };
+  s.onerror = function(){ showToast('❌ Грешка при вчитување','error'); };
+  document.head.appendChild(s);
 }
 
 function generateDataJS(){
