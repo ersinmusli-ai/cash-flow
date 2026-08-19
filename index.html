@@ -3372,17 +3372,27 @@ function showApp(u) {
 (function(){
   var u=sessionStorage.getItem('user');
   if(u&&typeof USERS!=='undefined'&&USERS[u]){currentUser=u;showApp(u);}
-  // Auto-load latest data from GitHub
+  // Always try to load latest data from GitHub
   var tk = savedToken;
   if(tk){
     fetch('https://api.github.com/repos/'+REPO_OWNER+'/'+REPO_NAME+'/contents/'+DATA_FILE,
       {headers:{'Authorization':'token '+tk,'Accept':'application/vnd.github.v3.raw'}})
     .then(function(r){ if(r.ok) return r.text(); throw new Error('fail'); })
     .then(function(code){
-      try { (1,eval)(code); renderAll(); console.log('✅ Fresh data loaded'); }
-      catch(e){ console.log('eval error',e); }
+      try {
+        // Use Function constructor to execute in global scope
+        var fn = new Function(code.replace(/^var /gm, 'window.'));
+        // Manually parse and assign
+        var lines = code.split('\n');
+        // Direct eval in global scope
+        var script = document.createElement('script');
+        script.textContent = code;
+        document.head.appendChild(script);
+        if(typeof renderAll==='function') renderAll();
+        console.log('✅ Fresh data loaded from GitHub');
+      } catch(e){ console.log('eval error',e); }
     })
-    .catch(function(e){ console.log('Using embedded data'); });
+    .catch(function(e){ console.log('Using embedded data',e); });
   }
 })();
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('loginScreen').style.display!=='none')doLogin();});
