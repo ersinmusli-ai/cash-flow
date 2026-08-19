@@ -281,12 +281,27 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// Cache-busting: load data.js with timestamp to avoid stale cache
-var s = document.createElement('script');
-s.src = 'data.js?v=' + Date.now();
-s.onload = function(){ if(typeof USERS !== 'undefined'){ var u=sessionStorage.getItem('user'); if(u&&USERS[u]){currentUser=u;showApp(u);} } };
-s.onerror = function(){ document.getElementById('loginError').textContent='Грешка: data.js не се вчитува!'; document.getElementById('loginError').style.display='block'; };
-document.head.appendChild(s);
+// Load data.js directly from GitHub raw content (bypasses Pages 404)
+const REPO_OWNER = 'ersinmusli-ai', REPO_NAME = 'cash-flow', DATA_FILE = 'data.js';
+
+async function loadData() {
+  try {
+    // Try loading from GitHub raw (always fresh, no 404)
+    const res = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${DATA_FILE}?t=${Date.now()}`);
+    if (!res.ok) throw new Error('Cannot load');
+    const code = await res.text();
+    eval(code);
+    console.log('✅ Data loaded from GitHub');
+    // Auto-login if session exists
+    const u = sessionStorage.getItem('user');
+    if (u && typeof USERS !== 'undefined' && USERS[u]) { currentUser = u; showApp(u); }
+  } catch(e) {
+    console.error('❌ Data load error:', e);
+    document.getElementById('loginError').textContent = 'Грешка: не може да се вчитаат податоци!';
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
+loadData();
 </script>
 <script>
 // ============================================================
@@ -295,7 +310,6 @@ document.head.appendChild(s);
 let currentUser = null;
 let pendingChanges = 0;
 let currentCardTarget = 'aldaco';
-const REPO_OWNER = 'ersinmusli-ai', REPO_NAME = 'cash-flow', DATA_FILE = 'data.js';
 
 // ============================================================
 // AUTH
