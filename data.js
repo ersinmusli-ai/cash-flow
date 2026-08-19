@@ -40,7 +40,7 @@ var CASH_DATA = {
 
 var INPORT_DATA = [
   {
-    "month": "",
+    "month": "January",
     "invoice": "SKK2026000000002 22.01.2026",
     "date": "",
     "client": "Aldaco",
@@ -57,7 +57,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "January",
     "invoice": "SKK2026000000004 23.01.2026",
     "date": "",
     "client": "Imperijal",
@@ -74,7 +74,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "January",
     "invoice": "SKK2026000000003 23.01.2026",
     "date": "",
     "client": "Imperijal",
@@ -91,7 +91,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "January",
     "invoice": "SKK2026000000006 30.01.2026",
     "date": "",
     "client": "Aldaco",
@@ -108,7 +108,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "February",
     "invoice": "SKK2026000000007 04.02.2026",
     "date": "",
     "client": "Aldaco",
@@ -125,7 +125,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "February",
     "invoice": "SKK2026000000014 12.02.2026",
     "date": "",
     "client": "Aldaco",
@@ -142,7 +142,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "February",
     "invoice": "SKK2026000000015 12.02.2026",
     "date": "",
     "client": "Aldaco",
@@ -159,7 +159,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "February",
     "invoice": "SKK2026000000019 13.02.2026",
     "date": "",
     "client": "Aldaco",
@@ -176,7 +176,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "February",
     "invoice": "SKK2026000000029 20.02.2026",
     "date": "",
     "client": "Imperijal",
@@ -193,7 +193,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "March",
     "invoice": "SKK2026000000034 27.02.2026",
     "date": "",
     "client": "Aldaco",
@@ -210,7 +210,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "March",
     "invoice": "SKK2026000000035 03.02.2026",
     "date": "",
     "client": "Imperijal",
@@ -227,7 +227,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "March",
     "invoice": "SKK2026000000038 06.03.2026",
     "date": "",
     "client": "Aldaco",
@@ -244,7 +244,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "March",
     "invoice": "SKK2026000000050 19.03.2026",
     "date": "",
     "client": "Imperijal",
@@ -261,7 +261,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "April",
     "invoice": "SKK2026000000069 17.04.2026",
     "date": "",
     "client": "Aldaco",
@@ -278,7 +278,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "April",
     "invoice": "SKK2026000000070 21.04.2026",
     "date": "",
     "client": "Aldaco",
@@ -295,7 +295,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "April",
     "invoice": "SKK2026000000073 27.04.2026",
     "date": "",
     "client": "Ipmerijal",
@@ -312,7 +312,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "May",
     "invoice": "SKK2026000000080 04.05.2026",
     "date": "",
     "client": "Aldaco",
@@ -329,7 +329,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "May",
     "invoice": "SKK2026000000086 12.05.2026",
     "date": "",
     "client": "Aldaco",
@@ -346,7 +346,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "May",
     "invoice": "SKK2026000000089 13.05.2026",
     "date": "",
     "client": "Imperijal",
@@ -363,7 +363,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "May",
     "invoice": "SKK2026000000090 15.05.2026",
     "date": "",
     "client": "Imperijal",
@@ -380,7 +380,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "May",
     "invoice": "SKK2026000000091 18.05.2026",
     "date": "",
     "client": "Aldaco",
@@ -397,7 +397,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "May",
     "invoice": "SKK2026000000096 27.05.2026",
     "date": "",
     "client": "Aldaco",
@@ -414,7 +414,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "June",
     "invoice": "SKK2026000000106 08.06.2026",
     "date": "",
     "client": "Aldaco",
@@ -431,7 +431,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "June",
     "invoice": "SKK2026000000113 12.06.2026",
     "date": "",
     "client": "Imperijal",
@@ -448,7 +448,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "June",
     "invoice": "SKK2026000000116 24.06.2026",
     "date": "",
     "client": "Aldako",
@@ -465,7 +465,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "June",
     "invoice": "SKK2026000000117 25.06.2026",
     "date": "",
     "client": "Aldako",
@@ -482,7 +482,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "June",
     "invoice": "SKK2026000000118 26.06.2026",
     "date": "",
     "client": "Imperijal",
@@ -499,7 +499,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "July",
     "invoice": "SKK2026000000121 01.07.2026",
     "date": "",
     "client": "Imperijal",
@@ -516,7 +516,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "July",
     "invoice": "SKK2026000000133 30.07.2026",
     "date": "",
     "client": "Imperijal",
@@ -533,7 +533,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "August",
     "invoice": "SKK2026000000141 13.08.2026",
     "date": "",
     "client": "Aldako",
@@ -550,7 +550,7 @@ var INPORT_DATA = [
     "status": "unpaid"
   },
   {
-    "month": "",
+    "month": "August",
     "invoice": "SKK2026000000140 12.08.2026",
     "date": "",
     "client": "Imperijal",
