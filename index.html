@@ -284,6 +284,7 @@
 // DATA.JS - SenFood Skopje Cash Flow 2026
 // Генерирано автоматски од Excel: 0 фактури, 126 АЛДАКО записи, 186 ИМПЕРИЈАЛ записи
 
+// DATA-START
 var EXCHANGE_RATE = 61.7;
 
 var CASH_DATA = {
@@ -3323,7 +3324,7 @@ var USERS = {
   admin:   { password: "senfood2026", role: "Admin",   name: "Ersin" },
   manager: { password: "manager2026", role: "Manager", name: "Andrijana" },
 };
-
+// DATA-END
 </script>
 <script>
 const REPO_OWNER = "ersinmusli-ai", REPO_NAME = "cash-flow", DATA_FILE = "data.js";
@@ -3587,9 +3588,39 @@ async function saveChanges(){
     });
     if(!putRes.ok){var e=await putRes.json(); throw new Error(e.message||'Грешка');}
 
+    // Also update index.html with new embedded data
+    var idxRes = await fetch('https://api.github.com/repos/'+REPO_OWNER+'/'+REPO_NAME+'/git/ref/heads/main',
+      {headers:{'Authorization':'token '+token}});
+    var idxBranch = await idxRes.json();
+    var idxCommitRes = await fetch('https://api.github.com/repos/'+REPO_OWNER+'/'+REPO_NAME+'/git/commits/'+idxBranch.object.sha,
+      {headers:{'Authorization':'token '+token}});
+    var idxCommit = await idxCommitRes.json();
+    var idxTreeRes = await fetch('https://api.github.com/repos/'+REPO_OWNER+'/'+REPO_NAME+'/git/trees/'+idxCommit.tree.sha,
+      {headers:{'Authorization':'token '+token}});
+    var idxTree = await idxTreeRes.json();
+    var idxFile = idxTree.tree.find(function(f){ return f.path === 'index.html'; });
+    if(idxFile){
+      var idxGetRes = await fetch('https://api.github.com/repos/'+REPO_OWNER+'/'+REPO_NAME+'/contents/index.html',
+        {headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3.raw'}});
+      var oldHtml = await idxGetRes.text();
+      // Replace embedded data in index.html
+      var startMarker = '// DATA-START';
+      var endMarker = '// DATA-END';
+      var si = oldHtml.indexOf(startMarker);
+      var ei = oldHtml.indexOf(endMarker);
+      if(si>-1 && ei>-1){
+        var newHtml = oldHtml.substring(0,si) + startMarker + '\n' + newContent + '\n' + oldHtml.substring(ei);
+        var putIdx = await fetch('https://api.github.com/repos/'+REPO_OWNER+'/'+REPO_NAME+'/contents/index.html', {
+          method:'PUT',
+          headers:{'Authorization':'token '+token,'Content-Type':'application/json'},
+          body: JSON.stringify({message:'Auto-update embedded data', content: btoa(unescape(encodeURIComponent(newHtml))), sha: idxFile.sha})
+        });
+      }
+    }
+
     pendingChanges=0;
     updateChanges();
-    showToast('✅ Зачувано на GitHub!','success');
+    showToast('✅ Зачувано!','success');
   } catch(err) {
     showToast('❌ '+err.message,'error');
   }
