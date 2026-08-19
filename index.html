@@ -3368,7 +3368,22 @@ function showApp(u) {
   document.getElementById('rateDisplay').textContent = EXCHANGE_RATE;
   renderAll();
 }
-(function(){ var u=sessionStorage.getItem('user'); if(u&&typeof USERS!=='undefined'&&USERS[u]){currentUser=u;showApp(u);} })();
+(function(){
+  var u=sessionStorage.getItem('user');
+  if(u&&typeof USERS!=='undefined'&&USERS[u]){currentUser=u;showApp(u);}
+  // Auto-load latest data from GitHub
+  var tk = savedToken;
+  if(tk){
+    fetch('https://api.github.com/repos/'+REPO_OWNER+'/'+REPO_NAME+'/contents/'+DATA_FILE,
+      {headers:{'Authorization':'token '+tk,'Accept':'application/vnd.github.v3.raw'}})
+    .then(function(r){ if(r.ok) return r.text(); throw new Error('fail'); })
+    .then(function(code){
+      try { (1,eval)(code); renderAll(); console.log('✅ Fresh data loaded'); }
+      catch(e){ console.log('eval error',e); }
+    })
+    .catch(function(e){ console.log('Using embedded data'); });
+  }
+})();
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('loginScreen').style.display!=='none')doLogin();});
 
 // TABS
@@ -3602,8 +3617,8 @@ function generateDataJS(){
   const a=arr=>'['+arr.join(', ')+']';
   return `// DATA.JS - SenFood Skopje Cash Flow 2026
 // Последна промена: ${new Date().toLocaleString('mk-MK')} од ${USERS[currentUser]?.name||'?'}
-const EXCHANGE_RATE = ${EXCHANGE_RATE};
-const CASH_DATA = {
+var EXCHANGE_RATE = ${EXCHANGE_RATE};
+var CASH_DATA = {
   rate: EXCHANGE_RATE,
   months: ${JSON.stringify(CASH_DATA.months)},
   rows: {
@@ -3623,10 +3638,10 @@ const CASH_DATA = {
   },
   rowLabels: ${JSON.stringify(CASH_DATA.rowLabels)}
 };
-const INPORT_DATA = ${JSON.stringify(INPORT_DATA)};
-const CARD_ALDACO = ${JSON.stringify(CARD_ALDACO)};
-const CARD_IMPERIJAL = ${JSON.stringify(CARD_IMPERIJAL)};
-const USERS = {
+var INPORT_DATA = ${JSON.stringify(INPORT_DATA)};
+var CARD_ALDACO = ${JSON.stringify(CARD_ALDACO)};
+var CARD_IMPERIJAL = ${JSON.stringify(CARD_IMPERIJAL)};
+var USERS = {
   admin:   { password: "${USERS.admin.password}", role: "Admin", name: "${USERS.admin.name}" },
   manager: { password: "${USERS.manager.password}", role: "Manager", name: "${USERS.manager.name}" },
 };`;
