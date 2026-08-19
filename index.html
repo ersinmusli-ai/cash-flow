@@ -3331,6 +3331,7 @@ const REPO_OWNER = "ersinmusli-ai", REPO_NAME = "cash-flow", DATA_FILE = "data.j
 // STATE
 // ============================================================
 let currentUser = null;
+var savedToken = "";
 let pendingChanges = 0;
 let currentCardTarget = 'aldaco';
 
@@ -3342,7 +3343,7 @@ function doLogin() {
   const p = document.getElementById('password').value;
   const t = document.getElementById('tokenInput').value.trim();
   if (USERS[u] && USERS[u].password === p) {
-    if (t) localStorage.setItem('gh_token', t);
+    if (t) { try { localStorage.setItem('gh_token', t); } catch(e){} savedToken = t; }
     sessionStorage.setItem('user', u);
     currentUser = u;
     showApp(u);
@@ -3533,7 +3534,7 @@ function updateChanges(){
 }
 
 async function saveChanges(){
-  const token = localStorage.getItem('gh_token');
+  var token = savedToken || ''; try { if(!token) token = localStorage.getItem('gh_token') || ''; } catch(e){}
   if(!token){ showToast('Нема GitHub Token! Одјави се и внеси го при логирање.','error'); return; }
 
   const btn = document.getElementById('saveBtn');
@@ -3575,7 +3576,7 @@ async function saveChanges(){
 
 // Load fresh data from GitHub API
 async function refreshData(){
-  var token = localStorage.getItem('gh_token');
+  var token = savedToken || ''; try { if(!token) token = localStorage.getItem('gh_token') || ''; } catch(e){}
   if(!token){ showToast('Нема GitHub Token!','error'); return; }
   showToast('🔄 Вчитувам...','success');
   try {
