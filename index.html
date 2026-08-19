@@ -3535,35 +3535,42 @@ function updateChanges(){
 
 async function saveChanges(){
   var token = savedToken || ''; try { if(!token) token = localStorage.getItem('gh_token') || ''; } catch(e){}
-  if(!token){ showToast('Нема GitHub Token! Одјави се и внеси го при логирање.','error'); return; }
+  if(!token){ showToast('Нема GitHub Token!','error'); return; }
 
   const btn = document.getElementById('saveBtn');
   btn.disabled=true; btn.textContent='⏳ Зачувувам...';
 
   try {
-    // Save data.js
-    const getRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE}`,
-      {headers:{'Authorization':`token ${token}`, 'Accept':'application/vnd.github.v3+json'}});
-    if(!getRes.ok) throw new Error('Не можам да пристапам до GitHub. Одјави се и внеси го новиот токен.');
-    const text = await getRes.text();
-    let fileInfo;
-    try { fileInfo = JSON.parse(text); } catch(e) {
-      // Token is wrong - clear it and ask for new one
-      localStorage.removeItem('gh_token');
-      throw new Error('Погрешен токен! Одјави се и внеси го новиот: ghp_lgBM...');
-    }
+    // Step 1: Get SHA via git/trees (more reliable than contents API)
+    const branchRes = await fetch('https://api.github.com/repos/'+REPO_OWNER+'/'+REPO_NAME+'/git/ref/heads/main',
+      {headers:{'Authorization':'token '+token}});
+    if(!branchRes.ok) throw new Error('Не можам да пристапам до GitHub');
+    const branchData = await branchRes.json();
+    const commitSha = branchData.object.sha;
 
+    const commitRes = await fetch('https://api.github.com/repos/'+REPO_OWNER+'/'+REPO_NAME+'/git/commits/'+commitSha,
+      {headers:{'Authorization':'token '+token}});
+    const commitData = await commitRes.json();
+    const treeSha = commitData.tree.sha;
+
+    const treeRes = await fetch('https://api.github.com/repos/'+REPO_OWNER+'/'+REPO_NAME+'/git/trees/'+treeSha,
+      {headers:{'Authorization':'token '+token}});
+    const treeData = await treeRes.json();
+    const dataFile = treeData.tree.find(function(f){ return f.path === DATA_FILE; });
+    if(!dataFile) throw new Error('data.js не е пронајден');
+
+    // Step 2: Push update
     const newContent = generateDataJS();
-    const putRes = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE}`, {
+    const putRes = await fetch('https://api.github.com/repos/'+REPO_OWNER+'/'+REPO_NAME+'/contents/'+DATA_FILE, {
       method:'PUT',
-      headers:{'Authorization':`token ${token}`,'Content-Type':'application/json'},
+      headers:{'Authorization':'token '+token,'Content-Type':'application/json'},
       body: JSON.stringify({
-        message: `${USERS[currentUser].name}: +${pendingChanges} промени - ${new Date().toLocaleString('mk-MK')}`,
+        message: USERS[currentUser].name+': +'+pendingChanges+' промени - '+new Date().toLocaleString('mk-MK'),
         content: btoa(unescape(encodeURIComponent(newContent))),
-        sha: fileInfo.sha
+        sha: dataFile.sha
       })
     });
-    if(!putRes.ok){const e=await putRes.json(); throw new Error(e.message||'Грешка');}
+    if(!putRes.ok){var e=await putRes.json(); throw new Error(e.message||'Грешка');}
 
     pendingChanges=0;
     updateChanges();
