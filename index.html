@@ -3765,6 +3765,31 @@ var USERS = {
 // ============================================================
 // EDIT FUNCTIONS
 // ============================================================
+function editCashField(rowKey, monthIdx, el){
+  var oldVal = CASH_DATA.rows[rowKey][monthIdx];
+  var dc = (rowKey==='exchangeDiff') ? 2 : 0;
+  var input = document.createElement('input');
+  input.type = 'number';
+  input.step = dc>0 ? '0.01' : '1';
+  input.value = oldVal;
+  input.style.cssText = 'width:90px;padding:3px;border:2px solid #e8913a;border-radius:4px;font-size:12px;text-align:right;';
+  el.innerHTML = '';
+  el.appendChild(input);
+  input.focus();
+  input.select();
+  function save(){
+    var newVal = parseFloat(input.value)||0;
+    if(newVal !== oldVal){
+      CASH_DATA.rows[rowKey][monthIdx] = newVal;
+      pendingChanges++;
+      updateChanges();
+    }
+    renderAll();
+  }
+  input.onblur = save;
+  input.onkeydown = function(e){ if(e.key==='Enter') input.blur(); if(e.key==='Escape'){ oldVal=oldVal; renderAll(); } };
+}
+
 function editInportField(idx, field, el){
   var inv = INPORT_DATA[idx];
   var oldVal = inv[field];
@@ -3882,22 +3907,37 @@ function renderCash(){
     <div class="summary-card"><div class="label">Профит</div><div class="value ${s(pr)>=0?'positive':'negative'}">${fmt(s(pr))}</div><div class="sub">EUR</div></div>`;
 
   const rows=[
-    {l:d.rowLabels.invoiceAldaco,d:r.invoiceAldaco},{l:d.rowLabels.invoiceImperijal,d:r.invoiceImperijal},
-    {l:d.rowLabels.transferFrom2025,d:r.transferFrom2025},{l:'Other',d:r.other},
+    {l:d.rowLabels.invoiceAldaco,d:r.invoiceAldaco},
+    {l:d.rowLabels.invoiceImperijal,d:r.invoiceImperijal},
+    {l:d.rowLabels.transferFrom2025,d:r.transferFrom2025,key:'transferFrom2025'},
+    {l:'Other',d:r.other,key:'other'},
     {l:'TOPLAM TUTAR',d:tt,c:'subtotal-row'},
-    {l:d.rowLabels.paidInvoices,d:r.paidInvoices},{l:'Exchange diff',d:r.exchangeDiff,dc:2},
-    {l:d.rowLabels.cashFlowTransfer,d:r.cashFlowTransfer},{l:'Spedision',d:r.spedision},
-    {l:'Bank charges',d:r.bankCharges},{l:'Custom',d:r.custom},{l:'Various',d:r.variousCosts},
-    {l:'SUMMARY BY MONTH',d:sm,c:'subtotal-row'},{l:'LAST REMAINING',d:lr,c:'remaining-row',dc:2,color:true},
-    {l:'EXPENSES DDV',d:r.expensesDDV},{l:'PROFIT',d:pr,c:'remaining-row',dc:2,color:true},
+    {l:d.rowLabels.paidInvoices,d:r.paidInvoices},
+    {l:'Exchange diff',d:r.exchangeDiff,dc:2,key:'exchangeDiff'},
+    {l:d.rowLabels.cashFlowTransfer,d:r.cashFlowTransfer,key:'cashFlowTransfer'},
+    {l:'Spedision',d:r.spedision,key:'spedision'},
+    {l:'Bank charges',d:r.bankCharges,key:'bankCharges'},
+    {l:'Custom',d:r.custom,key:'custom'},
+    {l:'Various',d:r.variousCosts,key:'variousCosts'},
+    {l:'SUMMARY BY MONTH',d:sm,c:'subtotal-row'},
+    {l:'LAST REMAINING',d:lr,c:'remaining-row',dc:2,color:true},
+    {l:'EXPENSES DDV',d:r.expensesDDV,key:'expensesDDV'},
+    {l:'PROFIT',d:pr,c:'remaining-row',dc:2,color:true},
   ];
 
   const mn=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   let h='<thead><tr><th>Ред</th>';mn.forEach(m=>h+=`<th>${m}</th>`);h+='<th>TOTAL</th></tr></thead><tbody>';
   rows.forEach(row=>{
     const dc=row.dc||0;
-    h+=`<tr class="${row.c||''}"><td>${row.l}</td>`;
-    row.d.forEach(v=>{const cc=row.color?fmtClass(v):'';h+=`<td class="${cc}">${fmt(v,dc)}</td>`;});
+    h+=`<tr class="${row.c||''}"><td>${row.l}${row.key?'<span style="font-size:9px;color:#e8913a;margin-left:4px" title="Кликни за да уредиш">✏️</span>':''}</td>`;
+    row.d.forEach((v,mi)=>{
+      const cc=row.color?fmtClass(v):'';
+      if(row.key){
+        h+=`<td class="editable ${cc}" onclick="editCashField('${row.key}',${mi},this)">${fmt(v,dc)}</td>`;
+      } else {
+        h+=`<td class="${cc}">${fmt(v,dc)}</td>`;
+      }
+    });
     const t=row.d.reduce((a,b)=>a+b,0);const cc=row.color?fmtClass(t):'';
     h+=`<td class="${cc}"><strong>${t?fmt(t,dc):'—'}</strong></td></tr>`;
   });
