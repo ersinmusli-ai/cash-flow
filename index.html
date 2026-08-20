@@ -3406,6 +3406,8 @@ var USERS = {
   manager: { password: "manager2026", role: "Manager", name: "Andrijana" },
   guest:   { password: "1234",        role: "Viewer",  name: "Guest" },
 };
+// Зачувај ги корисниците — data.js не смее да ги препише
+var MASTER_USERS = JSON.parse(JSON.stringify(USERS));
 
 // DATA-END
 </script>
@@ -3426,7 +3428,8 @@ function doLogin() {
   const u = document.getElementById('username').value.trim().toLowerCase();
   const p = document.getElementById('password').value;
   const t = document.getElementById('tokenInput').value.trim();
-  if (USERS[u] && USERS[u].password === p) {
+  var _U = (typeof MASTER_USERS!=='undefined') ? MASTER_USERS : USERS;
+  if (_U[u] && _U[u].password === p) {
     if (t) { try { localStorage.setItem('gh_token', t); } catch(e){} savedToken = t; }
     sessionStorage.setItem('user', u);
     currentUser = u;
@@ -3447,16 +3450,18 @@ function doLogout() {
 function showApp(u) {
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('app').style.display = 'block';
-  document.getElementById('userDisplay').textContent = USERS[u].name;
-  document.getElementById('roleDisplay').textContent = USERS[u].role;
+  var _UU=(typeof MASTER_USERS!=='undefined')?MASTER_USERS:USERS;
+  document.getElementById('userDisplay').textContent = _UU[u].name;
+  document.getElementById('roleDisplay').textContent = _UU[u].role;
   document.getElementById('rateDisplay').textContent = EXCHANGE_RATE;
-  window._isViewer = USERS[u].role === 'Viewer';
+  window._isViewer = _UU[u].role === 'Viewer';
   document.getElementById('appBody').className = window._isViewer ? 'viewer-mode' : '';
   renderAll();
 }
 (function(){
   var u=sessionStorage.getItem('user');
-  if(u&&typeof USERS!=='undefined'&&USERS[u]){currentUser=u;showApp(u);}
+  var _SU=(typeof MASTER_USERS!=='undefined')?MASTER_USERS:USERS;
+  if(u&&_SU&&_SU[u]){currentUser=u;showApp(u);}
   // Always try to load latest data from GitHub
   var tk = savedToken;
   if(tk){
