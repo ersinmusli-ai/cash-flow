@@ -73,14 +73,6 @@
   .status-paid { background: #e8f5e9; color: #2e7d32; padding: 3px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
   .status-unpaid { background: #ffebee; color: #c62828; padding: 3px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
 
-  /* VIEWER MODE */
-  body.viewer-mode .add-btn,
-  body.viewer-mode .del-btn,
-  body.viewer-mode #saveBtn,
-  body.viewer-mode #changesIndicator { display: none !important; }
-  body.viewer-mode td.editable { cursor: default !important; }
-  body.viewer-mode td.editable:hover { background: inherit !important; outline: none !important; }
-
   /* EDITABLE CELLS */
   td.editable { cursor: pointer; }
   td.editable:hover { background: #fff3e0 !important; outline: 2px solid #e8913a; outline-offset: -2px; }
@@ -138,7 +130,7 @@
   }
 </style>
 </head>
-<body id="appBody">
+<body>
 
 <!-- LOGIN -->
 <div id="loginScreen">
@@ -3402,9 +3394,8 @@ var CARD_IMPERIJAL = [
 ];
 
 var USERS = {
-  admin:   { password: "senfood2026", role: "Admin",   name: "Ersin" },
+  admin:   { password: "senfood2026", role: "Admin", name: "Ersin" },
   manager: { password: "manager2026", role: "Manager", name: "Andrijana" },
-  guest:   { password: "1234",        role: "Viewer",  name: "Guest" },
 };
 
 // DATA-END
@@ -3450,13 +3441,11 @@ function showApp(u) {
   document.getElementById('userDisplay').textContent = USERS[u].name;
   document.getElementById('roleDisplay').textContent = USERS[u].role;
   document.getElementById('rateDisplay').textContent = EXCHANGE_RATE;
-  window._isViewer = USERS[u].role === 'Viewer';
-  document.body.className = window._isViewer ? 'viewer-mode' : '';
   renderAll();
 }
 (function(){
-  var _su=sessionStorage.getItem('user');
-  if(_su && USERS[_su]){currentUser=_su;showApp(_su);}
+  var u=sessionStorage.getItem('user');
+  if(u&&typeof USERS!=='undefined'&&USERS[u]){currentUser=u;showApp(u);}
   // Always try to load latest data from GitHub
   var tk = savedToken;
   if(tk){
@@ -3465,6 +3454,10 @@ function showApp(u) {
     .then(function(r){ if(r.ok) return r.text(); throw new Error('fail'); })
     .then(function(code){
       try {
+        // Use Function constructor to execute in global scope
+        var fn = new Function(code.replace(/^var /gm, 'window.'));
+        // Manually parse and assign
+        var lines = code.split('\n');
         // Direct eval in global scope
         var script = document.createElement('script');
         script.textContent = code;
@@ -3763,8 +3756,10 @@ var CASH_DATA = {
 var INPORT_DATA = ${JSON.stringify(INPORT_DATA)};
 var CARD_ALDACO = ${JSON.stringify(CARD_ALDACO)};
 var CARD_IMPERIJAL = ${JSON.stringify(CARD_IMPERIJAL)};
-// USERS се чуваат само во index.html
-\`;
+var USERS = {
+  admin:   { password: "${USERS.admin.password}", role: "Admin", name: "${USERS.admin.name}" },
+  manager: { password: "${USERS.manager.password}", role: "Manager", name: "${USERS.manager.name}" },
+};`;
 }
 
 // ============================================================
@@ -3938,7 +3933,7 @@ function renderCash(){
     row.d.forEach((v,mi)=>{
       const cc=row.color?fmtClass(v):'';
       if(row.key){
-        h+=window._isViewer?`<td class="${cc}">${fmt(v,dc)}</td>`:`<td class="editable ${cc}" onclick="editCashField('${row.key}',${mi},this)">${fmt(v,dc)}</td>`;
+        h+=`<td class="editable ${cc}" onclick="editCashField('${row.key}',${mi},this)">${fmt(v,dc)}</td>`;
       } else {
         h+=`<td class="${cc}">${fmt(v,dc)}</td>`;
       }
