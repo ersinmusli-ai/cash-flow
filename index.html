@@ -3406,8 +3406,6 @@ var USERS = {
   manager: { password: "manager2026", role: "Manager", name: "Andrijana" },
   guest:   { password: "1234",        role: "Viewer",  name: "Guest" },
 };
-// Зачувај ги корисниците — data.js не смее да ги препише
-var MASTER_USERS = JSON.parse(JSON.stringify(USERS));
 
 // DATA-END
 </script>
@@ -3428,18 +3426,11 @@ function doLogin() {
   const u = document.getElementById('username').value.trim().toLowerCase();
   const p = document.getElementById('password').value;
   const t = document.getElementById('tokenInput').value.trim();
-  const AUTH = {
-    'admin':   {pass:'senfood2026', role:'Admin',   name:'Ersin'},
-    'manager': {pass:'manager2026', role:'Manager', name:'Andrijana'},
-    'guest':   {pass:'1234',        role:'Viewer',  name:'Guest'}
-  };
-  if (AUTH[u] && AUTH[u].pass === p) {
+  if (USERS[u] && USERS[u].password === p) {
     if (t) { try { localStorage.setItem('gh_token', t); } catch(e){} savedToken = t; }
     sessionStorage.setItem('user', u);
-    sessionStorage.setItem('userRole', AUTH[u].role);
-    sessionStorage.setItem('userName', AUTH[u].name);
     currentUser = u;
-    showApp(u, AUTH[u]);
+    showApp(u);
   } else {
     document.getElementById('loginError').style.display = 'block';
   }
@@ -3453,27 +3444,19 @@ function doLogout() {
   document.getElementById('tokenInput').value = '';
   document.getElementById('loginError').style.display = 'none';
 }
-function showApp(u, authObj) {
-  if(!authObj){
-    const AUTH={'admin':{role:'Admin',name:'Ersin'},'manager':{role:'Manager',name:'Andrijana'},'guest':{role:'Viewer',name:'Guest'}};
-    authObj = AUTH[u] || {role:'Admin',name:u};
-  }
+function showApp(u) {
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('app').style.display = 'block';
-  document.getElementById('userDisplay').textContent = authObj.name;
-  document.getElementById('roleDisplay').textContent = authObj.role;
+  document.getElementById('userDisplay').textContent = USERS[u].name;
+  document.getElementById('roleDisplay').textContent = USERS[u].role;
   document.getElementById('rateDisplay').textContent = EXCHANGE_RATE;
-  window._isViewer = authObj.role === 'Viewer';
-  var body = document.getElementById('appBody');
-  if(body) body.className = window._isViewer ? 'viewer-mode' : '';
+  window._isViewer = USERS[u].role === 'Viewer';
+  document.body.className = window._isViewer ? 'viewer-mode' : '';
   renderAll();
 }
 (function(){
-  var u=sessionStorage.getItem('user');
   var _su=sessionStorage.getItem('user');
-  var _sr=sessionStorage.getItem('userRole');
-  var _sn=sessionStorage.getItem('userName');
-  if(_su && _sr){currentUser=_su;showApp(_su,{role:_sr,name:_sn||_su});}
+  if(_su && USERS[_su]){currentUser=_su;showApp(_su);}
   // Always try to load latest data from GitHub
   var tk = savedToken;
   if(tk){
@@ -3482,12 +3465,6 @@ function showApp(u, authObj) {
     .then(function(r){ if(r.ok) return r.text(); throw new Error('fail'); })
     .then(function(code){
       try {
-        // Use Function constructor to execute in global scope
-        // Strip USERS from loaded data to prevent overwrite
-var cleanCode = code.replace(/var USERS\s*=\s*\{[^}]+\};/g,'');
-var fn = new Function(cleanCode.replace(/^var /gm, 'window.'));
-        // Manually parse and assign
-        var lines = code.split('\n');
         // Direct eval in global scope
         var script = document.createElement('script');
         script.textContent = code;
