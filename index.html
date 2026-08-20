@@ -3428,12 +3428,18 @@ function doLogin() {
   const u = document.getElementById('username').value.trim().toLowerCase();
   const p = document.getElementById('password').value;
   const t = document.getElementById('tokenInput').value.trim();
-  var _U = (typeof MASTER_USERS!=='undefined') ? MASTER_USERS : USERS;
-  if (_U[u] && _U[u].password === p) {
+  const AUTH = {
+    'admin':   {pass:'senfood2026', role:'Admin',   name:'Ersin'},
+    'manager': {pass:'manager2026', role:'Manager', name:'Andrijana'},
+    'guest':   {pass:'1234',        role:'Viewer',  name:'Guest'}
+  };
+  if (AUTH[u] && AUTH[u].pass === p) {
     if (t) { try { localStorage.setItem('gh_token', t); } catch(e){} savedToken = t; }
     sessionStorage.setItem('user', u);
+    sessionStorage.setItem('userRole', AUTH[u].role);
+    sessionStorage.setItem('userName', AUTH[u].name);
     currentUser = u;
-    showApp(u);
+    showApp(u, AUTH[u]);
   } else {
     document.getElementById('loginError').style.display = 'block';
   }
@@ -3447,21 +3453,27 @@ function doLogout() {
   document.getElementById('tokenInput').value = '';
   document.getElementById('loginError').style.display = 'none';
 }
-function showApp(u) {
+function showApp(u, authObj) {
+  if(!authObj){
+    const AUTH={'admin':{role:'Admin',name:'Ersin'},'manager':{role:'Manager',name:'Andrijana'},'guest':{role:'Viewer',name:'Guest'}};
+    authObj = AUTH[u] || {role:'Admin',name:u};
+  }
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('app').style.display = 'block';
-  var _UU=(typeof MASTER_USERS!=='undefined')?MASTER_USERS:USERS;
-  document.getElementById('userDisplay').textContent = _UU[u].name;
-  document.getElementById('roleDisplay').textContent = _UU[u].role;
+  document.getElementById('userDisplay').textContent = authObj.name;
+  document.getElementById('roleDisplay').textContent = authObj.role;
   document.getElementById('rateDisplay').textContent = EXCHANGE_RATE;
-  window._isViewer = _UU[u].role === 'Viewer';
-  document.getElementById('appBody').className = window._isViewer ? 'viewer-mode' : '';
+  window._isViewer = authObj.role === 'Viewer';
+  var body = document.getElementById('appBody');
+  if(body) body.className = window._isViewer ? 'viewer-mode' : '';
   renderAll();
 }
 (function(){
   var u=sessionStorage.getItem('user');
-  var _SU=(typeof MASTER_USERS!=='undefined')?MASTER_USERS:USERS;
-  if(u&&_SU&&_SU[u]){currentUser=u;showApp(u);}
+  var _su=sessionStorage.getItem('user');
+  var _sr=sessionStorage.getItem('userRole');
+  var _sn=sessionStorage.getItem('userName');
+  if(_su && _sr){currentUser=_su;showApp(_su,{role:_sr,name:_sn||_su});}
   // Always try to load latest data from GitHub
   var tk = savedToken;
   if(tk){
