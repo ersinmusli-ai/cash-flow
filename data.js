@@ -1,23 +1,23 @@
 // DATA.JS - SenFood Skopje Cash Flow 2026
-// Последна промена: 9/1/2026, 12:26:47 PM од Andrijana
+// Последна промена: 9/1/2026, 12:40:35 PM од Andrijana
 var EXCHANGE_RATE = 61.7;
 var CASH_DATA = {
   rate: EXCHANGE_RATE,
   months: ["January","February","March","April","May","June","July","August","September","October","November","December"],
   rows: {
-    invoiceAldaco:    [210760.34, 45278.06, 292136.39, 101002.16, 37802.51, 227039.04, 135300.26, 97999.53, 0, 0, 0, 0],
+    invoiceAldaco:    [210760.34, 45278.06, 292136.39, 101002.16, 37802.51, 227039.04, 135300.26, 97999.53, 33594, 0, 0, 0],
     invoiceImperijal: [82502.61, 112402.45, 102404.46, 134069.34, 64235.35, 129554.59, 132011.78, 100442.76, 0, 0, 0, 0],
     transferFrom2025: [150004, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     other:            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     paidInvoices:     [311442, 90532, 351107, 197624.3, 36070, 245749.6, 264777, 169446.6, 0, 0, 0, 0],
     exchangeDiff:     [1009.54, 293.46, 1138.11, 640.6, 116.92, 796.6, 858.27, 549.26, 0, 0, 0, 0],
     cashFlowTransfer: [20000, 30000, 20000, 15000, 0, 20000, 10000, 10000, 0, 0, 0, 0],
-    spedision:        [509, 629, 502, 370, 756, 566, 307, 271, 0, 0, 0, 0],
+    spedision:        [509, 629, 502, 370, 756, 566, 307, 271, 109, 0, 0, 0],
     bankCharges:      [38, 124, 86, 25, 0, 0, 0, 0, 0, 0, 0, 0],
-    custom:           [31477, 30312, 28011, 17872, 44712, 42947, 16843, 14037, 0, 0, 0, 0],
+    custom:           [31477, 30312, 28011, 17872, 44712, 42947, 16843, 14037, 5263, 0, 0, 0],
     variousCosts:     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     incomeDDV:        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    expensesDDV:      [12368, 11801, 10936, 6890, 17509, 16744, 6577, 5517, 0, 0, 0, 0],
+    expensesDDV:      [12368, 11801, 10936, 6890, 17509, 16744, 6577, 5517, 2023, 0, 0, 0],
   },
   rowLabels: {"invoiceAldaco":"AMOUNT OF INVOICE \"ALDACO\"","invoiceImperijal":"AMOUNT OF INVOICE \"IMPERIJAL TABAKO\"","transferFrom2025":"Transfer from 2025","other":"Other","paidInvoices":"Senkardes PAID INVOICES","exchangeDiff":"Exchange difference","cashFlowTransfer":"SenFood Cash flow for transfer","spedision":"SPEDISION MKD & SKYSPED","bankCharges":"BANK CHARGES","custom":"CUSTOM","variousCosts":"Various costs","incomeDDV":"INCOME DDV","expensesDDV":"EXPENSES DDV"}
 };
