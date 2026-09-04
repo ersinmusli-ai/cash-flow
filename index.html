@@ -462,16 +462,6 @@ function addInvoice(){
   if(!inv.invNo||!inv.amountInv){ showToast('Пополни ги барем бројот и износот!','error'); return; }
 
   INPORT_DATA.push(inv);
-  // Auto-update CASH_DATA
-  const mi = CASH_DATA.months.indexOf(inv.month);
-  if(mi>=0){
-    if(inv.client==='Aldaco') CASH_DATA.rows.invoiceAldaco[mi] += inv.amountInv;
-    else CASH_DATA.rows.invoiceImperijal[mi] += inv.amountInv;
-    CASH_DATA.rows.custom[mi] += inv.custom;
-    CASH_DATA.rows.spedision[mi] += inv.spedision;
-    CASH_DATA.rows.bankCharges[mi] += inv.banka;
-    CASH_DATA.rows.expensesDDV[mi] += inv.ddv;
-  }
 
   pendingChanges++;
   updateChanges();
